@@ -1,0 +1,1 @@
+// React entry point disabled to favor plain HTML and ES5 JavaScript demo.
