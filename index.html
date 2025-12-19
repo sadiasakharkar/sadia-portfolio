@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Sadia Sakharkar | Systems & AI Architecture</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* --- DESIGN SYSTEM: ARCHITECTURAL CHARCOAL --- */
+    :root {
+      --bg-void: #050505;
+      --bg-surface: #0a0a0a;
+      --accent-cyan: #22d3ee;
+      --accent-pink: #f472b6;
+      --text-main: #f8fafc;
+      --text-muted: #64748b;
+      --glass-border: rgba(255, 255, 255, 0.05);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-void);
+      color: var(--text-main);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Global 3D Background Overlay */
+    #global-bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.1;
+    }
+
+    #scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: var(--accent-cyan);
+      z-index: 1000;
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+
+    section {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 10rem 2rem;
+      z-index: 1;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1.2s cubic-bezier(0.2, 0, 0, 1), 
+                  transform 1.2s cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    section.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .metadata {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .hero-title {
+      font-size: clamp(3.5rem, 14vw, 12rem);
+      line-height: 0.85;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+    }
+
+    .chapter-heading {
+      font-size: clamp(2rem, 7vw, 5rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+    }
+
+    .nav-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 72px;
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 3rem;
+      background: rgba(5, 5, 5, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--glass-border);
+      padding: 2.25rem;
+      border-radius: 2px;
+      transition: all 0.4s cubic-bezier(0.2, 0, 0, 1);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      z-index: 2;
+    }
+
+    .card:hover {
+      border-color: var(--accent-cyan);
+      transform: translateY(-5px);
+      background: #0d0d0d;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .impact-stat {
+      font-size: 3.5rem;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--accent-cyan);
+      margin-bottom: 0.5rem;
+    }
+
+    .brief-btn {
+      margin-top: 1.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+    }
+
+    .brief-btn:hover { opacity: 0.7; }
+
+    /* 3D Visual Contexts */
+    .visual-3d-hero {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      width: 45vw;
+      height: 45vw;
+      transform: translateY(-50%);
+      z-index: -1;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .visual-3d-momentum {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 35vw;
+      height: 35vw;
+      transform: translateY(-50%);
+      z-index: -1;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.15;
+    }
+
+    .visual-3d-skills {
+      width: 100%;
+      height: 500px;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .project-3d-accent {
+      position: absolute;
+      top: -15px;
+      right: -15px;
+      width: 110px;
+      height: 110px;
+      opacity: 0.25;
+      pointer-events: none;
+    }
+
+    #detail-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.96);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    #detail-overlay.open { opacity: 1; pointer-events: auto; }
+
+    #detail-content {
+      width: 100%;
+      max-width: 850px;
+      padding: 3.5rem;
+      background: var(--bg-surface);
+      border: 1px solid var(--glass-border);
+      transform: translateY(20px) scale(0.99);
+      transition: all 0.5s cubic-bezier(0.2, 0, 0, 1);
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    #detail-overlay.open #detail-content { transform: translateY(0) scale(1); }
+
+    #detail-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      cursor: pointer;
+      color: var(--text-muted);
+      padding: 0.75rem;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.02);
+      transition: background 0.3s ease;
+    }
+
+    #detail-close:hover { background: rgba(255,255,255,0.05); }
+
+    .detail-section-title {
+      font-family: monospace;
+      color: var(--accent-pink);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    #ai-trigger {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: white;
+      color: black;
+      z-index: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    #ai-trigger:hover { transform: scale(1.1); }
+
+    #ai-panel {
+      position: fixed;
+      bottom: 6.5rem;
+      right: 2rem;
+      width: 380px;
+      max-width: calc(100vw - 4rem);
+      height: 520px;
+      background: rgba(12, 12, 12, 0.98);
+      backdrop-filter: blur(50px);
+      -webkit-backdrop-filter: blur(50px);
+      border: 1px solid var(--glass-border);
+      border-radius: 4px;
+      z-index: 599;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      transform: translateY(15px);
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    #ai-panel.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+    .chat-msg {
+      padding: 0.85rem 1rem;
+      border-radius: 2px;
+      margin-bottom: 1rem;
+      font-size: 13px;
+      line-height: 1.6;
+      max-width: 88%;
+    }
+
+    .ai-msg { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); color: #cbd5e1; }
+    .user-msg { background: var(--accent-cyan); color: #000; align-self: flex-end; font-weight: 700; }
+
+    /* CREDENTIALS MATRIX */
+    .credential-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    .credential-item {
+      padding: 1.25rem;
+      border: 1px solid var(--glass-border);
+      background: rgba(255,255,255,0.01);
+      transition: all 0.4s cubic-bezier(0.2, 0, 0, 1);
+      position: relative;
+      overflow: hidden;
+      min-height: 140px;
+      display: flex;
+      flex-direction: column;
+      z-index: 2;
+    }
+
+    .credential-item:hover {
+      border-color: var(--accent-cyan);
+      background: rgba(34, 211, 238, 0.04);
+      transform: scale(1.02);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    .credential-reveal {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: auto;
+      opacity: 0;
+      transform: translateY(5px);
+      transition: all 0.3s ease;
+      line-height: 1.5;
+    }
+
+    .credential-item:hover .credential-reveal {
+      opacity: 1;
+      transform: translateY(0);
+      color: #94a3b8;
+    }
+
+    .achievement-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      background: var(--accent-pink);
+      color: black;
+      font-size: 8px;
+      font-weight: 900;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.12em;
+    }
+
+    /* TIMELINE STYLES */
+    .timeline-item {
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: all 0.8s cubic-bezier(0.2, 0, 0, 1);
+    }
+    .timeline-item.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* FORM STYLES */
+    .signal-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 0.75rem 0;
+      color: white;
+      font-size: 14px;
+      transition: border-color 0.3s ease;
+    }
+    .signal-input:focus {
+      outline: none;
+      border-color: var(--accent-cyan);
+    }
+    .signal-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-muted);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+    }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+
+    @media (max-width: 1024px) {
+      .visual-3d-hero { 
+        position: relative;
+        width: 100%;
+        height: 50vh;
+        right: auto;
+        top: auto;
+        transform: none;
+        margin-top: 4rem;
+      }
+      .visual-3d-momentum {
+        display: none;
+      }
+      section { padding: 6rem 1.5rem; }
+    }
+    @media (max-width: 768px) {
+      .nav-bar { padding: 0 1.25rem; }
+      #detail-content { padding: 2rem 1.25rem; }
+      .hero-title { font-size: 14vw; }
+      .chapter-heading { font-size: 3rem; }
+      .credential-grid-layout { grid-template-columns: 1fr !important; }
+      .visual-3d-skills-container { order: -1; margin-bottom: 2rem; }
+    }
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react/": "https://esm.sh/react@^19.2.3/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+
+  <div id="scroll-progress"></div>
+  <div id="global-bg-canvas"></div>
+
+  <nav class="nav-bar">
+    <div class="metadata" style="color: white">S. SAKHARKAR // TECHNICAL_ARCHIVE_V11</div>
+    <div class="hidden md:flex gap-10">
+      <a href="#hero" class="metadata hover:text-white transition-colors">Core</a>
+      <a href="#momentum" class="metadata hover:text-white transition-colors">Momentum</a>
+      <a href="#vault" class="metadata hover:text-white transition-colors">Vault</a>
+      <a href="#credentials" class="metadata hover:text-white transition-colors">Recognition</a>
+      <a href="#contact" class="metadata hover:text-white transition-colors">Signal</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- CHAPTER 0: THE IDENTITY -->
+    <section id="hero" class="active">
+      <div id="hero-3d-container" class="visual-3d-hero"></div>
+      <div class="max-w-7xl mx-auto w-full relative z-10">
+        <div class="metadata mb-10 flex items-center gap-4">
+          <span class="w-8 h-px bg-slate-700"></span>
+          OPERATIONAL // SYSTEMS & AI ARCHITECTURE
+        </div>
+        <h1 class="hero-title">
+          <span class="block overflow-hidden">
+            <span class="block">SADIA</span>
+          </span>
+          <span class="block overflow-hidden text-slate-500">
+            <span class="block">SAKHARKAR</span>
+          </span>
+        </h1>
+        <div class="mt-12 max-w-2xl">
+          <p class="text-xl md:text-2xl text-slate-400 font-light leading-relaxed">
+            Engineering <span class="text-white">autonomous intelligence</span>. Specialist in predictive modeling, distributed high-throughput systems, and offensive tech architecture.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 1: MOMENTUM (EXPERIENCE) -->
+    <section id="momentum">
+      <div id="momentum-3d-container" class="visual-3d-momentum"></div>
+      <div class="max-w-7xl mx-auto w-full">
+        <div class="metadata mb-8 text-cyan-400">01 // EXPERIENCE_CHRONICLE</div>
+        <h2 class="chapter-heading italic">Momentum.</h2>
+        
+        <div class="space-y-16 mt-16 border-l border-white/10 ml-4 md:ml-0">
+          
+          <!-- ITEM 1 -->
+          <div class="timeline-item pl-10 relative">
+            <div class="absolute -left-[5px] top-0 w-[10px] h-[10px] bg-cyan-400 rounded-full shadow-[0_0_10px_rgba(34,211,238,0.8)]"></div>
+            <div class="metadata text-slate-500 mb-3">AUG 2023 — PRESENT</div>
+            <h3 class="text-3xl font-bold mb-2">Undergraduate Researcher</h3>
+            <p class="metadata text-cyan-400 mb-5">Cummins College of Engineering // AI Systems</p>
+            <p class="text-slate-400 text-lg font-light leading-relaxed max-w-2xl">
+              Leading research in high-accuracy AI predictive models. Specializing in data integrity for industrial-scale analytics.
+            </p>
+          </div>
+
+          <!-- ITEM 2 -->
+          <div class="timeline-item pl-10 relative">
+            <div class="absolute -left-[5px] top-0 w-[10px] h-[10px] bg-white/20 rounded-full"></div>
+            <div class="metadata text-slate-500 mb-3">FEB 2025</div>
+            <h3 class="text-3xl font-bold mb-2">National Hackathon</h3>
+            <p class="metadata text-pink-400 mb-5">Angel Polytechnic // GIT CodeBits 2.0</p>
+            <p class="text-slate-400 text-lg font-light leading-relaxed max-w-2xl">
+              Spearheaded development of scalable full-stack applications under 24-48h deadlines. Recognized as a Top Performer for delivering production-ready features during high-pressure sprints.
+            </p>
+          </div>
+
+          <!-- ITEM 3 -->
+          <div class="timeline-item pl-10 relative">
+            <div class="absolute -left-[5px] top-0 w-[10px] h-[10px] bg-white/20 rounded-full"></div>
+            <div class="metadata text-slate-500 mb-3">SEPT 2024</div>
+            <h3 class="text-3xl font-bold mb-2">SIH 2024 AI Systems Architect</h3>
+            <p class="metadata text-cyan-400 mb-5">Smart India Hackathon // PS-1661</p>
+            <p class="text-slate-400 text-lg font-light leading-relaxed max-w-2xl">
+              Engineered a robust AI solution aligning with national innovation goals. Focused on scalable neural architectures for complex problem-solving in decentralized environments.
+            </p>
+          </div>
+
+          <!-- ITEM 4 -->
+          <div class="timeline-item pl-10 relative">
+            <div class="absolute -left-[5px] top-0 w-[10px] h-[10px] bg-slate-700 rounded-full"></div>
+            <div class="metadata text-slate-500 mb-3">MAY 2024 — JULY 2024</div>
+            <h3 class="text-3xl font-bold mb-2">Full-Stack Architecture Intern</h3>
+            <p class="metadata text-pink-400 mb-5">Enterprise Infrastructure // Pune, MH</p>
+            <p class="text-slate-400 text-lg font-light leading-relaxed max-w-2xl">
+              Optimized microservice latency by 40% through architectural persistent caching layers. Refined the SDLC process for healthcare-centric data streams using Spring Boot and Angular.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 2: THE VAULT (PROJECTS) -->
+    <section id="vault">
+      <div class="max-w-7xl mx-auto w-full">
+        <div class="metadata mb-8 text-pink-400">02 // ARTIFACT_COLLECTION</div>
+        <h2 class="chapter-heading">The Vault.</h2>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+          
+          <!-- AgriYield Pro -->
+          <div class="card overflow-hidden">
+            <div id="accent-3d-agri" class="project-3d-accent"></div>
+            <div>
+              <div class="impact-stat">98.2%</div>
+              <div class="metadata mb-6">PYTHON // SCIKIT-LEARN</div>
+              <h3 class="text-xl font-bold mb-3 uppercase">AgriYield Pro</h3>
+              <p class="text-slate-500 text-sm font-light mb-6">
+                Decision Tree Regression model analyzing a decade of climatic data to optimize yields for 1,200+ rural farmers.
+              </p>
+            </div>
+            <div class="brief-btn" data-project="agriyield">
+              <span>Inspect</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+
+          <!-- WiseTrack -->
+          <div class="card lg:col-span-2 overflow-hidden">
+            <div id="accent-3d-wise" class="project-3d-accent" style="width: 180px; height: 180px; top: -40px; right: -40px;"></div>
+            <div>
+              <div class="impact-stat">99.8%</div>
+              <div class="metadata mb-6">REACTJS // FIREBASE // XGBOOST</div>
+              <h3 class="text-2xl font-bold mb-3 uppercase">WiseTrack AI</h3>
+              <p class="text-slate-500 text-md font-light mb-6 leading-relaxed">
+                Comprehensive education management ecosystem integrating real-time dropout prediction, smart attendance tracking, and mental health telemetry.
+              </p>
+            </div>
+            <div class="brief-btn" data-project="wisetrack">
+              <span>View Dossier</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+
+          <!-- Evento -->
+          <div class="card">
+            <div>
+              <div class="metadata mb-10">REACT NATIVE // FIREBASE</div>
+              <h3 class="text-xl font-bold mb-3 uppercase">Evento</h3>
+              <p class="text-slate-500 text-sm font-light mb-6">
+                Real-time event infrastructure with QR registration and Discord API sync, engineered under high-pressure 24h constraints.
+              </p>
+            </div>
+            <div class="brief-btn" data-project="evento">
+              <span>Dossier</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+
+          <!-- Kali Portfolio -->
+          <div class="card">
+            <div>
+              <div class="metadata mb-10">REACTJS // OFFENSIVE TECH UI</div>
+              <h3 class="text-xl font-bold mb-3 uppercase">Kali Portfolio</h3>
+              <p class="text-slate-500 text-sm font-light mb-6">
+                Security-centric terminal portfolio with 500+ unique visitors, highlighting offensive security branding and system logic.
+              </p>
+            </div>
+            <div class="brief-btn" data-project="portfolio">
+              <span>Details</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+
+          <!-- MediKart -->
+          <div class="card">
+            <div>
+              <div class="metadata mb-10">ANGULAR // SPRING BOOT</div>
+              <h3 class="text-xl font-bold mb-3 uppercase">MediKart</h3>
+              <p class="text-slate-500 text-sm font-light mb-6">
+                Full-stack pharmacy platform with JWT security, secure prescription handling, and dynamic inventory synchronization.
+              </p>
+            </div>
+            <div class="brief-btn" data-project="medikart">
+              <span>Technical</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 3: RECOGNITION (CERTIFICATIONS) -->
+    <section id="credentials">
+      <div class="max-w-[1400px] mx-auto w-full relative z-10">
+        <div class="metadata mb-8 text-cyan-400 text-center">03 // RECOGNITION_MATRIX</div>
+        <h2 class="chapter-heading italic text-center">Credentials.</h2>
+        
+        <div class="credential-grid-layout grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 items-start">
+          
+          <!-- Achievements Column -->
+          <div class="order-2 md:order-1">
+            <div class="metadata mb-6 text-pink-400 text-right">ACHIEVEMENTS</div>
+            <div class="credential-grid">
+              <div class="credential-item">
+                <span class="achievement-tag">1st RANK</span>
+                <h4 class="text-lg font-bold">Best Project: </h4>
+                <p class="text-[10px] text-slate-500 mt-2 uppercase">April 2025 // 98% Accuracy</p>
+                <p class="credential-reveal">Awarded for excellence in AI/ML solutions, demonstrating mastery in predictive modeling and institutional data analytics.</p>
+              </div>
+              <div class="credential-item">
+                <span class="achievement-tag">TOP PERFORMER</span>
+                <h4 class="text-lg font-bold">National Hackathons</h4>
+                <p class="text-[10px] text-slate-500 mt-2 uppercase">CodeCratz '25 // CodeBits 2.0</p>
+                <p class="credential-reveal">Lead contributor developing scalable full-stack applications under strict 24-48h deadlines in competitive environments.</p>
+              </div>
+              <div class="credential-item">
+                <span class="achievement-tag">CONTRIBUTOR</span>
+                <h4 class="text-lg font-bold">Global ML Initiative</h4>
+                <p class="text-[10px] text-slate-500 mt-2 uppercase">ML Reproducibility</p>
+                <p class="credential-reveal">Selected as an early contributor to a global initiative solving critical machine learning reproducibility challenges in science.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Central 3D Skill Object -->
+          <div class="visual-3d-skills-container order-1 md:order-2 flex flex-col items-center justify-center min-h-[500px] sticky top-24">
+            <div id="skills-3d-container" class="visual-3d-skills"></div>
+            <div class="mt-8 text-center">
+              <div class="metadata text-white tracking-[0.8em]">NEURAL CORE</div>
+              <div class="text-[9px] text-slate-500 mt-2 font-mono">AUTONOMOUS_LOGIC_SYNC_ACTIVE</div>
+            </div>
+          </div>
+
+          <!-- Certifications Column -->
+          <div class="order-3">
+            <div class="metadata mb-6 text-cyan-400">CERTIFICATIONS</div>
+            <div class="credential-grid">
+              <div class="credential-item">
+                <h4 class="text-lg font-bold">AWS ML Foundations</h4>
+                <p class="text-[10px] text-slate-500 mt-2 uppercase">Amazon Web Services</p>
+                <p class="credential-reveal">Fundamentals of SageMaker, AI pipelines, cloud computing, and automated model deployment strategies.</p>
+              </div>
+              <div class="credential-item">
+                <h4 class="text-lg font-bold">Cyber Job Simulation</h4>
+                <p class="text-[10px] text-slate-500 mt-2 uppercase">Deloitte Australia</p>
+                <p class="credential-reveal">Applied threat detection, vulnerability assessments, and incident response in simulated enterprise environments.</p>
+              </div>
+              <div class="credential-item">
+                <h4 class="text-lg font-bold">Automation Systems</h4>
+                <p class="text-[10px] text-slate-500 mt-2 uppercase">Workflow Optimization</p>
+                <p class="credential-reveal">Engineered automated industrial workflows to optimize business processes using modern scripting architectures.</p>
+              </div>
+              <div class="credential-item">
+                <h4 class="text-lg font-bold">Generative AI</h4>
+                <p class="text-[10px] text-slate-500 mt-2 uppercase">Konect U // July 2024</p>
+                <p class="credential-reveal">Mastery of GANs, transformer models, and deep neural network research methodologies.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 4: SIGNAL -->
+    <section id="contact" class="items-center">
+      <div class="max-w-4xl mx-auto w-full">
+        <div class="metadata mb-10 text-center">04 // SIGNAL_HANDSHAKE</div>
+        <h2 class="chapter-heading uppercase tracking-tighter text-center" style="font-size: clamp(3rem, 11vw, 9rem)">
+          Secure<br>Channel.
+        </h2>
+        
+        <!-- Contact Form Integration -->
+        <div class="mt-16 bg-[#0a0a0a] border border-white/5 p-8 md:p-12 text-left max-w-2xl mx-auto shadow-2xl relative overflow-hidden">
+          <div id="signal-form-container">
+            <form id="signal-form">
+              <div class="mb-8">
+                <label class="signal-label">Identification (Name)</label>
+                <input type="text" name="name" required placeholder="GUEST_USER" class="signal-input">
+              </div>
+              <div class="mb-8">
+                <label class="signal-label">Contact Protocol (Email)</label>
+                <input type="email" name="email" required placeholder="CONTACT@SECURE.HOST" class="signal-input">
+              </div>
+              <div class="mb-10">
+                <label class="signal-label">Signal Payload (Message)</label>
+                <textarea name="message" rows="4" required placeholder="ENCRYPT_MESSAGE_HERE..." class="signal-input resize-none"></textarea>
+              </div>
+              <button type="submit" id="submit-signal" class="w-full py-5 bg-white text-black font-black uppercase tracking-widest hover:bg-cyan-400 transition-all duration-400 flex items-center justify-center gap-4">
+                <span>Transmit Signal</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+              </button>
+            </form>
+          </div>
+          <div id="signal-success" class="hidden py-12 text-center">
+            <div class="text-cyan-400 text-5xl font-black mb-4 tracking-tighter animate-pulse">SIGNAL SENT.</div>
+            <p class="metadata text-slate-500">Handshake acknowledged. Expect response on secure channel.</p>
+            <button onclick="window.location.reload()" class="mt-8 metadata text-white hover:text-cyan-400 transition-colors">>> RESET_BUFFER</button>
+          </div>
+        </div>
+
+        <div class="mt-12 flex flex-col md:flex-row gap-5 justify-center">
+          <div class="px-10 py-5 border border-white/10 text-white font-bold uppercase tracking-widest metadata flex items-center justify-center">
+            Pune, MH // OPERATIONAL
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- DETAIL OVERLAY -->
+  <div id="detail-overlay">
+    <div id="detail-content">
+      <div id="detail-close">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </div>
+      <div id="detail-body"></div>
+    </div>
+  </div>
+
+  <!-- CONCIERGE -->
+  <div id="ai-trigger">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  </div>
+
+  <div id="ai-panel">
+    <div class="p-5 border-b border-white/5 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-7 h-7 rounded bg-white flex items-center justify-center font-black text-black text-[9px]">SA</div>
+        <div class="metadata text-white">Concierge Assistant</div>
+      </div>
+      <button id="ai-close" class="text-slate-500 hover:text-white transition-colors">
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-width="2"/></svg>
+      </button>
+    </div>
+    <div id="ai-history" class="flex-1 overflow-y-auto p-5 flex flex-col">
+      <div class="chat-msg ai-msg">Diagnostic sequence complete. I can provide technical data on Sadia's 9.66 GPA, her AgriYield Pro research, or AWS ML credentials. How shall we proceed?</div>
+    </div>
+    <div class="p-5 pt-0">
+      <div class="relative">
+        <input id="ai-input" type="text" placeholder="Query dossier..." class="w-full bg-transparent border-b border-white/10 py-3 text-xs focus:outline-none focus:border-cyan-400 pr-10">
+        <button id="ai-send" class="absolute right-0 top-1/2 -translate-y-1/2 text-cyan-400">
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-width="2.5"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.js"></script>
+  <script type="module">
+    import { GoogleGenAI } from "@google/genai";
+
+    (function() {
+      // --- ES5 VARIABLE DECLARATIONS ---
+      var progress = document.getElementById('scroll-progress');
+      var trigger = document.getElementById('ai-trigger');
+      var panel = document.getElementById('ai-panel');
+      var aiInput = document.getElementById('ai-input');
+      var aiSend = document.getElementById('ai-send');
+      var historyBox = document.getElementById('ai-history');
+      
+      var projectData = {
+        agriyield: {
+          title: "AgriYield Pro: Predictive Agriculture",
+          challenges: "Analyzing 10 years of inconsistent agro-climatic and soil telemetry across rural networks.",
+          decisions: "Deployed Decision Tree Regression (98.2% R²) for maximum interpretability in resource planning.",
+          impact: "Improving planning for 1,200+ farmers and cutting forecast delay by 40%."
+        },
+        wisetrack: {
+          title: "WiseTrack AI: Institutional Intelligence",
+          challenges: "Ethical predictive modeling of student attrition and mental health indicators.",
+          decisions: "XGBoost architecture achieving 99.8% precision with multilingual and NEP-aligned features.",
+          impact: "National hackathon recognition; significant attrition reduction via early telemetry intervention."
+        },
+        evento: {
+          title: "Evento: Real-Time Management",
+          challenges: "Scaling real-time QR registration and Discord sync within a high-pressure 24h sprint.",
+          decisions: "React Native with Firebase real-time listeners for synchronized buzzer features.",
+          impact: "Successfully handled 70% of core features in 24 hours for massive registration volumes."
+        },
+        portfolio: {
+          title: "Kali Portfolio: Security Branding",
+          challenges: "Capturing a terminal-inspired offensive security UI without sacrificing performance.",
+          decisions: "Custom CSS/JS terminal engine showcasing cybersecurity and system logic interests.",
+          impact: "500+ unique visitors; established a strong online presence for systems security engineering."
+        },
+        medikart: {
+          title: "MediKart: Healthcare E-Pharmacy",
+          challenges: "Secure prescription handling and real-time inventory synchronization across diverse categories.",
+          decisions: "Spring Boot REST API backed by Angular; implemented robust JWT-based security layers.",
+          impact: "Complete healthcare portal with prescription management and real-time order tracking."
+        }
+      };
+
+      // Progress bar and timeline animation function
+      function handleScroll() {
+        var winScroll = window.pageYOffset || document.documentElement.scrollTop;
+        var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        var scrolled = (winScroll / height) * 100;
+        progress.style.width = scrolled + "%";
+      }
+
+      window.addEventListener('scroll', function() {
+        if (window.requestAnimationFrame) {
+          window.requestAnimationFrame(handleScroll);
+        } else {
+          handleScroll();
+        }
+      });
+
+      // Intersection Observer for scroll animations
+      var observer = new IntersectionObserver(function(entries) {
+        for (var i = 0; i < entries.length; i++) {
+          if (entries[i].isIntersecting) {
+            entries[i].target.classList.add('active');
+          }
+        }
+      }, { threshold: 0.1 });
+
+      var sections = document.querySelectorAll('section');
+      for (var j = 0; j < sections.length; j++) {
+        observer.observe(sections[j]);
+      }
+
+      var timelineItems = document.querySelectorAll('.timeline-item');
+      for (var t = 0; t < timelineItems.length; t++) {
+        observer.observe(timelineItems[t]);
+      }
+
+      // Project dossiers
+      var detailOverlay = document.getElementById('detail-overlay');
+      var detailBody = document.getElementById('detail-body');
+      var detailClose = document.getElementById('detail-close');
+      var briefBtns = document.querySelectorAll('.brief-btn');
+
+      for (var k = 0; k < briefBtns.length; k++) {
+        briefBtns[k].onclick = function() {
+          var id = this.getAttribute('data-project');
+          var data = projectData[id];
+          if (!data) return;
+
+          detailBody.innerHTML = 
+            '<h4 class="text-4xl font-bold mb-8">' + data.title + '</h4>' +
+            '<div class="grid gap-10">' +
+              '<div><span class="detail-section-title">Critical Challenges</span><p class="text-slate-400 font-light">' + data.challenges + '</p></div>' +
+              '<div><span class="detail-section-title">Architectural Decisions</span><p class="text-slate-400 font-light">' + data.decisions + '</p></div>' +
+              '<div><span class="detail-section-title">System Impact</span><p class="text-slate-400 font-light">' + data.impact + '</p></div>' +
+            '</div>';
+          
+          detailOverlay.classList.add('open');
+          document.body.style.overflow = 'hidden';
+        };
+      }
+
+      detailClose.onclick = function() {
+        detailOverlay.classList.remove('open');
+        document.body.style.overflow = 'auto';
+      };
+
+      // AI Concierge logic
+      trigger.onclick = function() { panel.classList.toggle('open'); };
+      document.getElementById('ai-close').onclick = function() { panel.classList.remove('open'); };
+
+      function addMsg(role, text) {
+        var msg = document.createElement('div');
+        msg.className = 'chat-msg ' + (role === 'user' ? 'user-msg' : 'ai-msg');
+        msg.innerText = text;
+        historyBox.appendChild(msg);
+        historyBox.scrollTop = historyBox.scrollHeight;
+      }
+
+      function handleAi() {
+        var text = aiInput.value.trim();
+        if (!text) return;
+        addMsg('user', text);
+        aiInput.value = '';
+
+        try {
+          var aiClient = new GoogleGenAI({ apiKey: process.env.API_KEY });
+          aiClient.models.generateContent({
+            model: "gemini-3-flash-preview",
+            contents: text,
+            config: { systemInstruction: "You are the digital concierge for Sadia Sakharkar. Sadia: 9.66 GPA, systems researcher at Cummins College. Credentials: AWS ML, Deloitte Cyber, Cisco, GenAI, Automation Systems. Awards: 1st Rank Project Presentation (DBATU). Major Projects: AgriYield Pro (98.2%), WiseTrack (99.8%), Evento, MediKart. Be precise, professional, and reference technical achievements when relevant." }
+          }).then(function(response) {
+            addMsg('ai', response.text);
+          }).catch(function(err) {
+            addMsg('ai', "Neural link error. Please retry or contact Sadia via sakharkarsadia@gmail.com.");
+          });
+        } catch (e) {
+          addMsg('ai', "Interface failure.");
+        }
+      }
+
+      aiSend.onclick = handleAi;
+      aiInput.onkeydown = function(e) { if (e.keyCode === 13) handleAi(); };
+
+      // --- CONTACT FORM LOGIC (ES5) ---
+      var signalForm = document.getElementById('signal-form');
+      var signalSuccess = document.getElementById('signal-success');
+      var formContainer = document.getElementById('signal-form-container');
+      
+      if (signalForm) {
+        signalForm.onsubmit = function(e) {
+          e.preventDefault();
+          var btn = document.getElementById('submit-signal');
+          btn.disabled = true;
+          btn.innerHTML = 'TRANSMITTING_SIGNAL...';
+          
+          setTimeout(function() {
+            formContainer.classList.add('hidden');
+            signalSuccess.classList.remove('hidden');
+          }, 1500);
+          
+          return false;
+        };
+      }
+
+      // --- THREE.JS ENGINE (ES5) ---
+      var scenes = [];
+
+      function createThree(id, type) {
+        var container = document.getElementById(id);
+        if (!container) return;
+
+        var w = container.offsetWidth || 300;
+        var h = container.offsetHeight || 300;
+
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);
+        var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(w, h);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        var geometry, material, mesh, group;
+
+        if (type === 'hero') {
+          group = new THREE.Group();
+          
+          // Abstract Brain - Distorted Symmetrical Lobes
+          var brainMat = new THREE.MeshBasicMaterial({ 
+            color: 0x22d3ee, 
+            wireframe: true, 
+            transparent: true, 
+            opacity: 0.12 
+          });
+          
+          // Left Lobe
+          var leftLobeGeom = new THREE.SphereGeometry(1.6, 12, 10);
+          leftLobeGeom.scale(0.85, 1.3, 1);
+          leftLobeGeom.translate(-0.8, 0, 0);
+          var leftLobe = new THREE.Mesh(leftLobeGeom, brainMat);
+          group.add(leftLobe);
+          
+          // Right Lobe
+          var rightLobeGeom = new THREE.SphereGeometry(1.6, 12, 10);
+          rightLobeGeom.scale(0.85, 1.3, 1);
+          rightLobeGeom.translate(0.8, 0, 0);
+          var rightLobe = new THREE.Mesh(rightLobeGeom, brainMat);
+          group.add(rightLobe);
+
+          // Neural connections (vertices as points)
+          var pointMat = new THREE.PointsMaterial({ 
+            color: 0x22d3ee, 
+            size: 0.05, 
+            transparent: true, 
+            opacity: 0.5 
+          });
+          group.add(new THREE.Points(leftLobeGeom, pointMat));
+          group.add(new THREE.Points(rightLobeGeom, pointMat));
+
+          scene.add(group);
+          mesh = group;
+          camera.position.z = 5.5;
+        } else if (type === 'momentum') {
+          group = new THREE.Group();
+          var ringGeom = new THREE.TorusGeometry(3, 0.05, 16, 100);
+          var ringMat = new THREE.MeshBasicMaterial({ color: 0x22d3ee, transparent: true, opacity: 0.4 });
+          var ring = new THREE.Mesh(ringGeom, ringMat);
+          group.add(ring);
+          var ringWireGeom = new THREE.TorusGeometry(3.1, 0.02, 16, 100);
+          var ringWireMat = new THREE.MeshBasicMaterial({ color: 0x22d3ee, wireframe: true, transparent: true, opacity: 0.1 });
+          var ringWire = new THREE.Mesh(ringWireGeom, ringWireMat);
+          group.add(ringWire);
+          var innerSphereGeom = new THREE.SphereGeometry(1.5, 32, 32);
+          var innerSphereMat = new THREE.MeshBasicMaterial({ color: 0x22d3ee, wireframe: true, transparent: true, opacity: 0.05 });
+          var innerSphere = new THREE.Mesh(innerSphereGeom, innerSphereMat);
+          group.add(innerSphere);
+          scene.add(group);
+          mesh = group;
+          camera.position.z = 8;
+        } else if (type === 'skills') {
+          group = new THREE.Group();
+          var shellGeom = new THREE.SphereGeometry(2.2, 16, 16);
+          var shellMat = new THREE.MeshBasicMaterial({ color: 0x22d3ee, wireframe: true, transparent: true, opacity: 0.08 });
+          var shell = new THREE.Mesh(shellGeom, shellMat);
+          group.add(shell);
+          var coreGeom = new THREE.IcosahedronGeometry(1.4, 1);
+          var coreMat = new THREE.MeshBasicMaterial({ color: 0xf472b6, wireframe: true, transparent: true, opacity: 0.4 });
+          var core = new THREE.Mesh(coreGeom, coreMat);
+          group.add(core);
+          var pGeom = new THREE.BufferGeometry();
+          var pCount = 50;
+          var pos = new Float32Array(pCount * 3);
+          for(var i=0; i<pCount*3; i++) {
+             pos[i] = (Math.random() - 0.5) * 6;
+          }
+          pGeom.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+          var pMat = new THREE.PointsMaterial({ color: 0x22d3ee, size: 0.04, transparent: true, opacity: 0.6 });
+          var pSystem = new THREE.Points(pGeom, pMat);
+          group.add(pSystem);
+          scene.add(group);
+          mesh = group;
+          camera.position.z = 6;
+        } else if (type === 'accent') {
+          geometry = new THREE.BoxGeometry(1.2, 1.2, 1.2);
+          material = new THREE.MeshBasicMaterial({ color: 0x22d3ee, wireframe: true, transparent: true, opacity: 0.2 });
+          mesh = new THREE.Mesh(geometry, material);
+          scene.add(mesh);
+          camera.position.z = 3.2;
+        } else if (type === 'bg') {
+          geometry = new THREE.TorusKnotGeometry(12, 4, 150, 20);
+          material = new THREE.MeshBasicMaterial({ color: 0x22d3ee, wireframe: true, transparent: true, opacity: 0.04 });
+          mesh = new THREE.Mesh(geometry, material);
+          scene.add(mesh);
+          camera.position.z = 18;
+        }
+
+        scenes.push({ renderer: renderer, scene: scene, camera: camera, mesh: mesh, type: type });
+      }
+
+      function renderLoop() {
+        requestAnimationFrame(renderLoop);
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+        var time = Date.now() * 0.001;
+        
+        for (var i = 0; i < scenes.length; i++) {
+          var s = scenes[i];
+          if (s.type === 'hero') {
+            s.mesh.rotation.y += 0.0015;
+            s.mesh.rotation.x = scrollY * 0.0004;
+          } else if (s.type === 'momentum') {
+            s.mesh.rotation.y += 0.001;
+            s.mesh.rotation.z += 0.0005;
+            s.mesh.rotation.x = scrollY * 0.0002;
+            s.mesh.position.y = Math.sin(time * 0.5) * 0.2;
+          } else if (s.type === 'skills') {
+            s.mesh.rotation.y += 0.003;
+            s.mesh.rotation.z += 0.001;
+            s.mesh.scale.setScalar(1 + Math.sin(time) * 0.05);
+          } else {
+            s.mesh.rotation.y += 0.005;
+            s.mesh.rotation.x += 0.002;
+          }
+          s.renderer.render(s.scene, s.camera);
+        }
+      }
+
+      // Initialize all 3D contexts
+      createThree('global-bg-canvas', 'bg');
+      createThree('hero-3d-container', 'hero');
+      createThree('momentum-3d-container', 'momentum');
+      createThree('skills-3d-container', 'skills');
+      createThree('accent-3d-agri', 'accent');
+      createThree('accent-3d-wise', 'accent');
+
+      renderLoop();
+      handleScroll();
+
+      window.onresize = function() {
+        for (var i = 0; i < scenes.length; i++) {
+          var s = scenes[i];
+          var cont = s.renderer.domElement.parentElement;
+          if (!cont) continue;
+          var rw = cont.offsetWidth;
+          var rh = cont.offsetHeight;
+          s.camera.aspect = rw / rh;
+          s.camera.updateProjectionMatrix();
+          s.renderer.setSize(rw, rh);
+        }
+      };
+
+    })();
+  </script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
