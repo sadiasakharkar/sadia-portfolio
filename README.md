@@ -1,20 +1,15 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Sadia Portfolio
 
-# Run and deploy your AI Studio app
+A minimal, interactive portfolio website showcasing my work in full-stack development, AI/ML, and cybersecurity.
 
-This contains everything you need to run your app locally.
+This portfolio serves as a digital resume, combining selected projects, technical skills, and professional experience into a single, streamlined web experience.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1qvo8eJDXym5ZGna8ocjGzcEXjSDFOh7X
+### Purpose
 
-## Run Locally
-
-**Prerequisites:**  Node.js
+Designed to present my technical background and project work in a clear, modern, and recruiter-friendly format, with a focus on performance, usability, and visual clarity.
 
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+### Author
+
+Sadia Sakharkar  
+Computer Engineering | Full-Stack, AI/ML, Cybersecurity
