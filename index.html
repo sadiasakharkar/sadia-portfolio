@@ -79,11 +79,17 @@
     }
 
     .hero-title {
-      font-size: clamp(3.5rem, 14vw, 12rem);
-      line-height: 0.85;
+      font-size: clamp(3.5rem, 11.5vw, 10rem);
+      line-height: 0.9;
       font-weight: 900;
       letter-spacing: -0.04em;
       text-transform: uppercase;
+      max-width: 100%;
+    }
+
+    .hero-title-line {
+      display: block;
+      white-space: nowrap;
     }
 
     .chapter-heading {
@@ -127,9 +133,9 @@
 
     .card:hover {
       border-color: var(--accent-cyan);
-      transform: translateY(-5px);
+      transform: translateY(-8px) scale(1.01);
       background: #0d0d0d;
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.6);
     }
 
     .impact-stat {
@@ -151,26 +157,736 @@
       text-transform: uppercase;
       color: var(--accent-cyan);
       cursor: pointer;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.3s ease, transform 0.3s ease, letter-spacing 0.3s ease;
     }
 
-    .brief-btn:hover { opacity: 0.7; }
+    .brief-btn:hover { opacity: 1; transform: translateX(6px); letter-spacing: 0.24em; }
 
-    /* 3D Visual Contexts */
-    .visual-3d-hero {
-      position: absolute;
-      top: 50%;
-      right: 0;
-      width: 45vw;
-      height: 45vw;
-      transform: translateY(-50%);
-      z-index: -1;
-      pointer-events: none;
+    .section-intro {
+      max-width: 44rem;
+      color: #94a3b8;
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-top: 1rem;
+    }
+
+    .hero-highlights {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 2.5rem;
+      max-width: 56rem;
+    }
+
+    .hero-highlight {
+      padding: 1.1rem 1.2rem;
+      border: 1px solid var(--glass-border);
+      background: rgba(255,255,255,0.02);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .hero-highlight strong {
+      display: block;
+      font-size: 1.35rem;
+      color: white;
+      margin-bottom: 0.3rem;
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+      max-width: 64rem;
+    }
+
+    .hero-actions {
       display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .cta-btn {
+      display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 0.7rem;
+      min-height: 52px;
+      padding: 0 1.35rem;
+      border: 1px solid var(--glass-border);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 11px;
+      font-weight: 800;
+      transition: all 0.3s ease;
+    }
+
+    .btn-icon,
+    .contact-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .btn-icon svg,
+    .contact-icon svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .cta-btn-primary {
+      background: white;
+      color: black;
+    }
+
+    .cta-btn-primary:hover {
+      background: var(--accent-cyan);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 18px 32px rgba(34,211,238,0.22);
+    }
+
+    .cta-btn-secondary {
+      background: rgba(255,255,255,0.02);
+      color: white;
+    }
+
+    .cta-btn-secondary:hover {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 18px 32px rgba(34,211,238,0.12);
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .story-card {
+      border: 1px solid var(--glass-border);
+      background: rgba(255,255,255,0.02);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+    }
+
+    .story-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(34,211,238,0.08), transparent 45%);
+      pointer-events: none;
+      opacity: 0.8;
+      transition: opacity 0.35s ease, transform 0.45s ease;
+    }
+
+    .story-card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(34,211,238,0.28);
+      box-shadow: 0 20px 44px rgba(0,0,0,0.34);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .story-card:hover::before {
+      opacity: 1;
+      transform: scale(1.03);
+    }
+
+    .story-points {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .story-point {
+      padding: 1rem 1.1rem;
+      border-left: 2px solid rgba(34,211,238,0.5);
+      background: rgba(255,255,255,0.015);
+      color: #cbd5e1;
+      line-height: 1.7;
+      transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+    }
+
+    .story-point:hover {
+      transform: translateX(6px);
+      border-left-color: var(--accent-pink);
+      background: rgba(255,255,255,0.035);
+    }
+
+    .section-label {
+      display: inline-block;
+      margin-bottom: 1rem;
+      color: var(--accent-cyan);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.28em;
+      font-family: monospace;
+    }
+
+    .timeline-grid {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .timeline-card {
+      display: grid;
+      grid-template-columns: 170px minmax(0, 1fr);
+      gap: 1.5rem;
+      padding: 1.5rem 0 1.5rem 1.5rem;
+      border-left: 1px solid rgba(255,255,255,0.08);
+      position: relative;
+      transition: transform 0.35s ease, border-color 0.35s ease;
+    }
+
+    .timeline-card::before {
+      content: "";
+      position: absolute;
+      left: -6px;
+      top: 1.8rem;
+      width: 11px;
+      height: 11px;
+      border-radius: 999px;
+      background: var(--accent-cyan);
+      box-shadow: 0 0 18px rgba(34,211,238,0.45);
+      transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+    }
+
+    .timeline-card:hover {
+      transform: translateX(8px);
+      border-left-color: rgba(34,211,238,0.35);
+    }
+
+    .timeline-card:hover::before {
+      transform: scale(1.25);
+      background: var(--accent-pink);
+      box-shadow: 0 0 24px rgba(244,114,182,0.45);
+    }
+
+    .timeline-date {
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-family: monospace;
+      padding-top: 0.2rem;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 1.25rem;
+      margin-top: 2.5rem;
+    }
+
+    .project-card-wide { grid-column: span 7; }
+    .project-card-mid { grid-column: span 5; }
+    .project-card-full { grid-column: span 4; }
+
+    .project-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.35rem 0.7rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #cbd5e1;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-family: monospace;
+      transition: transform 0.25s ease, border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
+    }
+
+    .tag:hover {
+      transform: translateY(-2px);
+      border-color: rgba(34,211,238,0.35);
+      color: white;
+      background: rgba(34,211,238,0.08);
+    }
+
+    .project-rank {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.45rem 0.75rem;
+      border: 1px solid rgba(34,211,238,0.2);
+      background: rgba(34,211,238,0.08);
+      color: var(--accent-cyan);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-family: monospace;
+      margin-bottom: 1rem;
+    }
+
+    .project-case-card {
+      display: grid;
+      gap: 1.5rem;
+      padding: 2rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      background:
+        radial-gradient(circle at top right, rgba(34,211,238,0.08), transparent 30%),
+        rgba(255,255,255,0.02);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .project-case-card:hover {
+      transform: translateY(-8px) scale(1.01);
+      border-color: rgba(34,211,238,0.4);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+    }
+
+    .project-featured {
+      grid-column: span 6;
+      min-height: 560px;
+      grid-template-rows: auto auto auto 1fr auto;
+    }
+
+    .project-secondary {
+      grid-column: span 4;
+      min-height: 470px;
+      grid-template-rows: auto auto 1fr auto;
+    }
+
+    .project-kicker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .project-subtitle {
+      color: #cbd5e1;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      max-width: 48rem;
+    }
+
+    .project-facts {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .project-fact {
+      padding: 0.95rem 1rem;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.015);
+      transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+    }
+
+    .project-fact:hover {
+      transform: translateX(4px);
+      border-color: rgba(34,211,238,0.28);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .project-fact-label {
+      display: block;
+      margin-bottom: 0.45rem;
+      color: var(--accent-pink);
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-family: monospace;
+    }
+
+    .project-accordion {
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.015);
+      transition: border-color 0.3s ease, background 0.3s ease;
+    }
+
+    .project-accordion + .project-accordion {
+      margin-top: 0.9rem;
+    }
+
+    .project-accordion:hover {
+      border-color: rgba(34,211,238,0.25);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .project-accordion summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .project-accordion summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .project-accordion-icon {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      transition: transform 0.25s ease, color 0.25s ease;
+    }
+
+    .project-accordion[open] .project-accordion-icon {
+      transform: rotate(45deg);
+      color: var(--accent-cyan);
+    }
+
+    .project-accordion-body {
+      padding: 0 1rem 1rem;
+      color: #cbd5e1;
+      line-height: 1.8;
+    }
+
+    .project-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.9rem;
+    }
+
+    .project-stat {
+      padding: 1rem;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.015);
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .project-stat:hover {
+      transform: translateY(-4px);
+      border-color: rgba(244,114,182,0.28);
+      box-shadow: 0 16px 26px rgba(0,0,0,0.28);
+    }
+
+    .project-stat strong {
+      display: block;
+      color: white;
+      font-size: 1.35rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .project-note {
+      margin-top: 1rem;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.8;
+      max-width: 48rem;
+    }
+
+    .project-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      align-items: center;
+    }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.8rem 1rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      color: white;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-family: monospace;
+      transition: transform 0.25s ease, border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
+    }
+
+    .project-link:hover {
+      transform: translateY(-2px);
+      border-color: rgba(34,211,238,0.35);
+      color: var(--accent-cyan);
+      background: rgba(34,211,238,0.08);
+    }
+
+    .skill-category-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .skill-category {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
       overflow: hidden;
     }
+
+    .skill-category:hover {
+      transform: translateY(-5px);
+      border-color: rgba(34,211,238,0.25);
+      box-shadow: 0 18px 32px rgba(0,0,0,0.3);
+    }
+
+    .skill-category summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .skill-category summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .skill-category h3 {
+      margin: 0;
+      font-size: 1rem;
+      color: white;
+    }
+
+    .skill-category .chip-cloud {
+      margin-top: 0;
+      padding: 0 1.25rem 1.25rem;
+    }
+
+    .skill-category summary span {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      transition: transform 0.25s ease, color 0.25s ease;
+    }
+
+    .skill-category[open] summary span {
+      transform: rotate(45deg);
+      color: var(--accent-cyan);
+    }
+
+    .skill-category[open] {
+      border-color: rgba(34,211,238,0.25);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .proof-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .skills-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+      gap: 2rem;
+      margin-top: 2.5rem;
+      align-items: start;
+    }
+
+    .chip-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+
+    .chip {
+      padding: 0.8rem 1rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      color: #e2e8f0;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .dual-card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    .contact-actions {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .contact-action-card {
+      padding: 1.25rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      transition: all 0.3s ease;
+    }
+
+    .contact-action-card:hover {
+      border-color: var(--accent-cyan);
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 20px 36px rgba(0,0,0,0.28);
+    }
+
+    .contact-action-head {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .location-card {
+      width: min(100%, 420px);
+      padding: 1.2rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      background:
+        radial-gradient(circle at 80% 20%, rgba(34,211,238,0.12), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .location-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      border-color: rgba(34,211,238,0.28);
+      box-shadow: 0 22px 40px rgba(0,0,0,0.28);
+    }
+
+    .location-map {
+      width: 100%;
+      height: 180px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+        radial-gradient(circle at 68% 48%, rgba(34,211,238,0.2), transparent 18%),
+        #0a0f14;
+      background-size: 28px 28px, 28px 28px, auto, auto;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .location-map svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .map-pin {
+      position: absolute;
+      left: 67%;
+      top: 44%;
+      transform: translate(-50%, -50%);
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: var(--accent-pink);
+      box-shadow: 0 0 0 10px rgba(244,114,182,0.08), 0 0 24px rgba(244,114,182,0.45);
+      animation: pinPulse 2.2s ease infinite;
+    }
+
+    .map-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      color: white;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-family: monospace;
+    }
+
+    .letter-stage {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 3;
+      background: rgba(10,10,10,0.2);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+
+    .letter-stage.active {
+      display: flex;
+    }
+
+    .letter-mail {
+      position: relative;
+      width: 120px;
+      height: 82px;
+      transform-origin: center;
+      animation: mailFly 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .letter-body {
+      position: absolute;
+      inset: 18px 0 0 0;
+      background: white;
+      border-radius: 4px;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.25);
+    }
+
+    .letter-flap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 42px;
+      background: linear-gradient(180deg, #f8fafc, #dbe8f0);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: top center;
+      animation: flapOpen 0.55s ease forwards;
+    }
+
+    .letter-line {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      height: 2px;
+      background: rgba(15,23,42,0.12);
+      border-radius: 999px;
+    }
+
+    .letter-line.one { top: 36px; }
+    .letter-line.two { top: 48px; width: 56%; }
+
+    @keyframes flapOpen {
+      0% { transform: rotateX(0deg); }
+      100% { transform: rotateX(180deg); }
+    }
+
+    @keyframes mailFly {
+      0% { opacity: 0; transform: translateY(18px) scale(0.88) rotate(-6deg); }
+      20% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+      60% { opacity: 1; transform: translate(30px, -18px) scale(1.04) rotate(6deg); }
+      100% { opacity: 0; transform: translate(160px, -120px) scale(0.78) rotate(16deg); }
+    }
+
+    @keyframes pinPulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.12); }
+    }
+
+    .education-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    /* 3D Visual Contexts */
 
     .visual-3d-momentum {
       position: absolute;
@@ -280,6 +996,22 @@
 
     #ai-trigger:hover { transform: scale(1.1); }
 
+    #ai-trigger::before {
+      content: "";
+      position: absolute;
+      inset: -8px;
+      border-radius: 999px;
+      border: 1px solid rgba(34,211,238,0.25);
+      opacity: 0;
+      transform: scale(0.9);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    #ai-trigger:hover::before {
+      opacity: 1;
+      transform: scale(1.08);
+    }
+
     #ai-panel {
       position: fixed;
       bottom: 6.5rem;
@@ -303,17 +1035,107 @@
 
     #ai-panel.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
 
+    .assistant-subtitle {
+      color: var(--text-muted);
+      font-size: 11px;
+      margin-top: 0.25rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
     .chat-msg {
       padding: 0.85rem 1rem;
-      border-radius: 2px;
+      border-radius: 18px;
       margin-bottom: 1rem;
       font-size: 13px;
       line-height: 1.6;
       max-width: 88%;
+      animation: chatIn 0.35s ease both;
     }
 
     .ai-msg { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); color: #cbd5e1; }
     .user-msg { background: var(--accent-cyan); color: #000; align-self: flex-end; font-weight: 700; }
+
+    .assistant-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      padding: 0 1.25rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .assistant-chip {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      color: #dbe4f0;
+      padding: 0.6rem 0.75rem;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: all 0.25s ease;
+    }
+
+    .assistant-chip:hover {
+      transform: translateY(-2px);
+      border-color: rgba(34,211,238,0.35);
+      color: var(--accent-cyan);
+      background: rgba(34,211,238,0.08);
+    }
+
+    .assistant-input-wrap {
+      display: flex;
+      align-items: flex-end;
+      gap: 0.75rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 0.35rem 0.5rem 0.35rem 1rem;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .assistant-input {
+      width: 100%;
+      min-height: 46px;
+      max-height: 140px;
+      resize: none;
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 13px;
+      line-height: 1.6;
+      padding: 0.7rem 0;
+    }
+
+    .assistant-input:focus {
+      outline: none;
+    }
+
+    .assistant-send {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      color: black;
+      transition: all 0.25s ease;
+      flex-shrink: 0;
+    }
+
+    .assistant-send:hover {
+      background: var(--accent-cyan);
+      transform: translateY(-2px);
+    }
+
+    .assistant-send:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    @keyframes chatIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     /* CREDENTIALS MATRIX */
     .credential-grid {
@@ -411,27 +1233,101 @@
     ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
 
     @media (max-width: 1024px) {
-      .visual-3d-hero { 
-        position: relative;
-        width: 100%;
-        height: 50vh;
-        right: auto;
-        top: auto;
-        transform: none;
-        margin-top: 4rem;
+      .nav-bar {
+        padding: 0 1.5rem;
       }
+      .story-grid,
+      .skills-layout { grid-template-columns: 1fr; }
+      .project-card-wide,
+      .project-card-mid,
+      .project-card-full,
+      .project-featured,
+      .project-secondary { grid-column: span 12; }
       .visual-3d-momentum {
         display: none;
+      }
+      .proof-grid,
+      .education-grid,
+      .contact-actions,
+      .skill-category-grid,
+      .dual-card-grid { grid-template-columns: 1fr; }
+      .project-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .project-link,
+      .brief-btn {
+        width: 100%;
+        justify-content: center;
+      }
+      .location-card {
+        width: 100%;
+        max-width: 100%;
       }
       section { padding: 6rem 1.5rem; }
     }
     @media (max-width: 768px) {
-      .nav-bar { padding: 0 1.25rem; }
+      .nav-bar {
+        padding: 0 1rem;
+        height: 64px;
+      }
+      section {
+        min-height: auto;
+        padding: 5.5rem 1rem;
+      }
       #detail-content { padding: 2rem 1.25rem; }
-      .hero-title { font-size: 14vw; }
-      .chapter-heading { font-size: 3rem; }
+      .hero-title {
+        font-size: clamp(3rem, 16vw, 5.6rem);
+        line-height: 0.92;
+      }
+      .hero-title-line {
+        white-space: normal;
+      }
+      .chapter-heading { font-size: clamp(2.1rem, 11vw, 3rem); }
+      .metadata {
+        letter-spacing: 0.24em;
+        font-size: 9px;
+      }
+      .section-intro,
+      .project-subtitle,
+      .story-card p,
+      .timeline-card p {
+        font-size: 0.98rem;
+        line-height: 1.7;
+      }
       .credential-grid-layout { grid-template-columns: 1fr !important; }
       .visual-3d-skills-container { order: -1; margin-bottom: 2rem; }
+      .hero-highlights { grid-template-columns: 1fr; }
+      .timeline-card { grid-template-columns: 1fr; gap: 0.75rem; }
+      .timeline-date { padding-top: 0; }
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .cta-btn { width: 100%; }
+      .project-stat-grid { grid-template-columns: 1fr; }
+      .project-case-card,
+      .story-card,
+      .contact-action-card,
+      .location-card {
+        padding: 1.25rem;
+      }
+      .contact-actions {
+        gap: 0.8rem;
+      }
+      .assistant-chips {
+        padding: 0 1rem 0.85rem;
+        gap: 0.45rem;
+      }
+      .assistant-chip {
+        width: 100%;
+        justify-content: center;
+      }
+      .assistant-input-wrap {
+        padding-left: 0.8rem;
+      }
+      .location-map {
+        height: 150px;
+      }
+      #ai-trigger { bottom: 1rem; right: 1rem; }
+      #ai-panel { right: 1rem; left: 1rem; width: auto; max-width: none; }
     }
   </style>
 <script type="importmap">
@@ -451,254 +1347,548 @@
   <div id="global-bg-canvas"></div>
 
   <nav class="nav-bar">
-    <div class="metadata" style="color: white">S. SAKHARKAR // TECHNICAL_ARCHIVE_V11</div>
+    <div class="metadata" style="color: white">SADIA SAKHARKAR // PORTFOLIO</div>
     <div class="hidden md:flex gap-10">
-      <a href="#hero" class="metadata hover:text-white transition-colors">Core</a>
-      <a href="#momentum" class="metadata hover:text-white transition-colors">Momentum</a>
-      <a href="#vault" class="metadata hover:text-white transition-colors">Vault</a>
-      <a href="#credentials" class="metadata hover:text-white transition-colors">Recognition</a>
-      <a href="#contact" class="metadata hover:text-white transition-colors">Signal</a>
+      <a href="#hero" class="metadata hover:text-white transition-colors">Home</a>
+      <a href="#story" class="metadata hover:text-white transition-colors">Story</a>
+      <a href="#education" class="metadata hover:text-white transition-colors">Education</a>
+      <a href="#vault" class="metadata hover:text-white transition-colors">Projects</a>
+      <a href="#credentials" class="metadata hover:text-white transition-colors">Skills</a>
+      <a href="#contact" class="metadata hover:text-white transition-colors">Contact</a>
     </div>
   </nav>
 
   <main>
-    <!-- CHAPTER 0: THE IDENTITY -->
     <section id="hero" class="active">
-      <div id="hero-3d-container" class="visual-3d-hero"></div>
-      <div class="max-w-7xl mx-auto w-full relative z-10">
-        <div class="metadata mb-10 flex items-center gap-4">
-          <span class="w-8 h-px bg-slate-700"></span>
-          OPERATIONAL // SYSTEMS & AI ARCHITECTURE
-        </div>
-        <h1 class="hero-title">
-          <span class="block overflow-hidden">
-            <span class="block">SADIA</span>
-          </span>
-          <span class="block overflow-hidden text-slate-500">
-            <span class="block">SAKHARKAR</span>
-          </span>
-        </h1>
-        <div class="mt-12 max-w-2xl">
-          <p class="text-xl md:text-2xl text-slate-400 font-light leading-relaxed">
-            Engineering <span class="text-white">autonomous intelligence</span>. Specialist in predictive modeling, distributed high-throughput systems, and offensive tech architecture.
+      <div class="max-w-7xl mx-auto w-full">
+        <div class="hero-copy">
+          <div class="metadata mb-10 flex items-center gap-4">
+            <span class="w-8 h-px bg-slate-700"></span>
+            COMPUTER ENGINEERING // FULL-STACK, AI/ML, CYBERSECURITY
+          </div>
+          <h1 class="hero-title">
+            <span class="hero-title-line">SADIA</span>
+            <span class="hero-title-line text-slate-500">SAKHARKAR</span>
+          </h1>
+          <p class="text-xl md:text-2xl text-slate-400 font-light leading-relaxed mt-10 max-w-3xl">
+            I design and build digital products that connect <span class="text-white">real-world problems</span> with practical software, AI, and secure systems.
           </p>
+          <div class="hero-actions">
+            <a href="mailto:sakharkarsadia@gmail.com" class="cta-btn cta-btn-primary"><span class="btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg></span>Email Me</a>
+            <a href="mailto:sakharkarsadia@gmail.com?subject=Resume%20Request&body=Hi%20Sadia%2C%0A%0ACould%20you%20please%20share%20your%20resume%3F%0A%0AThank%20you." class="cta-btn cta-btn-secondary"><span class="btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 3.5h7l4 4V20a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1Z"/><path d="M14 3.5V8h4"/><path d="M9 12h6M9 16h6"/></svg></span>View Resume</a>
+            <a href="https://github.com/sadiasakharkar" target="_blank" rel="noreferrer" class="cta-btn cta-btn-secondary"><span class="btn-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.8.5 12.34c0 5.23 3.3 9.66 7.88 11.23.58.11.79-.26.79-.57 0-.28-.01-1.03-.02-2.03-3.21.72-3.89-1.58-3.89-1.58-.52-1.37-1.28-1.73-1.28-1.73-1.05-.74.08-.73.08-.73 1.16.09 1.77 1.22 1.77 1.22 1.03 1.83 2.7 1.3 3.36.99.1-.77.4-1.3.73-1.6-2.56-.3-5.25-1.32-5.25-5.9 0-1.3.45-2.36 1.19-3.19-.12-.3-.52-1.5.11-3.13 0 0 .97-.32 3.18 1.22a10.7 10.7 0 0 1 5.78 0c2.2-1.54 3.17-1.22 3.17-1.22.63 1.63.23 2.83.12 3.13.74.83 1.19 1.9 1.19 3.19 0 4.59-2.7 5.59-5.27 5.88.41.37.78 1.1.78 2.23 0 1.61-.02 2.91-.02 3.31 0 .31.2.69.8.57A11.9 11.9 0 0 0 23.5 12.34C23.5 5.8 18.35.5 12 .5Z"/></svg></span>GitHub</a>
+            <a href="https://www.linkedin.com/in/sadiasakharkar/" target="_blank" rel="noreferrer" class="cta-btn cta-btn-secondary"><span class="btn-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.11 1 2.48 1h.02C3.87 1 4.98 2.12 4.98 3.5ZM.44 8.06h4.12V24H.44V8.06Zm6.77 0h3.95v2.18h.06c.55-1.04 1.9-2.14 3.92-2.14 4.2 0 4.98 2.82 4.98 6.48V24h-4.12v-8.28c0-1.98-.03-4.53-2.7-4.53-2.7 0-3.11 2.16-3.11 4.39V24H7.21V8.06Z"/></svg></span>LinkedIn</a>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- CHAPTER 1: MOMENTUM (EXPERIENCE) -->
+    <section id="story">
+      <div class="max-w-7xl mx-auto w-full">
+        <div class="metadata mb-8 text-cyan-400">01 // MY STORY</div>
+        <h2 class="chapter-heading">How I Think About Building.</h2>
+        <div class="story-grid mt-12">
+          <div class="story-card">
+            <span class="section-label">What matters to me</span>
+            <p class="text-slate-300 text-lg leading-8">
+              I care about technology that reduces noise and improves decisions for real people.
+            </p>
+            <div class="story-points">
+              <div class="story-point">I like practical problem-solving over complexity for its own sake.</div>
+              <div class="story-point">I value explainability, trust, and clear decision-making.</div>
+              <div class="story-point">I enjoy fast environments and still care about reliability.</div>
+            </div>
+          </div>
+          <div class="story-card">
+            <span class="section-label">What I am growing into</span>
+            <p class="text-slate-300 text-lg leading-8">
+              I am growing into a product-minded engineer who can move across frontend, backend, AI/ML, and cybersecurity as needed.
+            </p>
+            <div class="dual-card-grid">
+              <div class="hero-highlight">
+                <strong>Research</strong>
+                <span class="text-slate-400 text-sm">Using experimentation to improve systems.</span>
+              </div>
+              <div class="hero-highlight">
+                <strong>Product</strong>
+                <span class="text-slate-400 text-sm">Designing clear, useful experiences.</span>
+              </div>
+              <div class="hero-highlight">
+                <strong>Engineering</strong>
+                <span class="text-slate-400 text-sm">Building dependable systems.</span>
+              </div>
+              <div class="hero-highlight">
+                <strong>Security</strong>
+                <span class="text-slate-400 text-sm">Thinking carefully about trust and safety.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="education">
+      <div class="max-w-7xl mx-auto w-full">
+        <div class="metadata mb-8 text-pink-400">02 // EDUCATION</div>
+        <h2 class="chapter-heading">The Foundation Behind My Work.</h2>
+        <div class="story-card mt-12">
+          <span class="section-label">Academic direction</span>
+          <p class="text-slate-300 text-lg leading-8 max-w-3xl">
+            My diploma and engineering journey gave me a strong base across software, AI/ML, and security-focused systems.
+          </p>
+        </div>
+        <div class="education-grid">
+          <div class="story-card">
+            <span class="section-label">Current degree</span>
+            <h3 class="text-3xl font-bold">B.Tech in Computer Engineering</h3>
+            <p class="text-cyan-400 metadata mt-4">MKSSS's Cummins College of Engineering for Women, Pune // 2025 - 2028</p>
+            <p class="text-slate-300 text-lg leading-8 mt-8">
+              Building a stronger foundation in systems, software engineering, and applied computing.
+            </p>
+            <div class="hero-highlight mt-8">
+              <strong>B.Tech CGPA: 8.90</strong>
+              <span class="text-slate-400 text-sm">Focused on consistency and technical depth.</span>
+            </div>
+          </div>
+          <div class="story-card">
+            <span class="section-label">Diploma foundation</span>
+            <h3 class="text-3xl font-bold">Diploma in Computer Engineering</h3>
+            <p class="text-cyan-400 metadata mt-4">Dr. Babasaheb Ambedkar Technological University // 2022 - 2025</p>
+            <p class="text-slate-300 text-lg leading-8 mt-8">
+              Built the discipline and confidence behind my current project work.
+            </p>
+            <div class="hero-highlight mt-8">
+              <strong>Diploma CGPA: 9.66</strong>
+              <span class="text-slate-400 text-sm">A strong foundation for projects and hackathons.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="momentum">
       <div id="momentum-3d-container" class="visual-3d-momentum"></div>
       <div class="max-w-7xl mx-auto w-full">
-        <div class="metadata mb-8 text-cyan-400">01 // EXPERIENCE_CHRONICLE</div>
-        <h2 class="chapter-heading italic">Momentum.</h2>
-        
-        <div class="space-y-16 mt-16 border-l border-white/10 ml-4 md:ml-0">
-          
-          <!-- ITEM 1 -->
-          <div class="timeline-item pl-10 relative">
-            <div class="absolute -left-[5px] top-0 w-[10px] h-[10px] bg-cyan-400 rounded-full shadow-[0_0_10px_rgba(34,211,238,0.8)]"></div>
-            <div class="metadata text-slate-500 mb-3">AUG 2023 — PRESENT</div>
-            <h3 class="text-3xl font-bold mb-2">Undergraduate Researcher</h3>
-            <p class="metadata text-cyan-400 mb-5">Cummins College of Engineering // AI Systems</p>
-            <p class="text-slate-400 text-lg font-light leading-relaxed max-w-2xl">
-              Leading research in high-accuracy AI predictive models. Specializing in data integrity for industrial-scale analytics.
-            </p>
+        <div class="metadata mb-8 text-cyan-400">03 // EXPERIENCE</div>
+        <h2 class="chapter-heading">Where I Have Applied My Skills.</h2>
+        <div class="timeline-grid">
+          <div class="timeline-card timeline-item">
+            <div class="timeline-date">Jul 2025 - Present</div>
+            <div>
+              <h3 class="text-3xl font-bold mb-2">Atlas Research Contributor</h3>
+              <p class="metadata text-cyan-400 mb-4">Global ML Reproducibility Project</p>
+              <p class="text-slate-300 text-lg leading-8">
+                Built reproducible ML workflows and translated research ideas into production-grade Python systems.
+              </p>
+            </div>
           </div>
-
-          <!-- ITEM 2 -->
-          <div class="timeline-item pl-10 relative">
-            <div class="absolute -left-[5px] top-0 w-[10px] h-[10px] bg-white/20 rounded-full"></div>
-            <div class="metadata text-slate-500 mb-3">FEB 2025</div>
-            <h3 class="text-3xl font-bold mb-2">National Hackathon</h3>
-            <p class="metadata text-pink-400 mb-5">Angel Polytechnic // GIT CodeBits 2.0</p>
-            <p class="text-slate-400 text-lg font-light leading-relaxed max-w-2xl">
-              Spearheaded development of scalable full-stack applications under 24-48h deadlines. Recognized as a Top Performer for delivering production-ready features during high-pressure sprints.
-            </p>
+          <div class="timeline-card timeline-item">
+            <div class="timeline-date">Jun 2024 - Jul 2024</div>
+            <div>
+              <h3 class="text-3xl font-bold mb-2">AI/ML Intern</h3>
+              <p class="metadata text-pink-400 mb-4">Konect U // Remote</p>
+              <p class="text-slate-300 text-lg leading-8">
+                Built an end-to-end crop-yield prediction pipeline that improved forecasting efficiency by 30%.
+              </p>
+            </div>
           </div>
-
-          <!-- ITEM 3 -->
-          <div class="timeline-item pl-10 relative">
-            <div class="absolute -left-[5px] top-0 w-[10px] h-[10px] bg-white/20 rounded-full"></div>
-            <div class="metadata text-slate-500 mb-3">SEPT 2024</div>
-            <h3 class="text-3xl font-bold mb-2">SIH 2024 AI Systems Architect</h3>
-            <p class="metadata text-cyan-400 mb-5">Smart India Hackathon // PS-1661</p>
-            <p class="text-slate-400 text-lg font-light leading-relaxed max-w-2xl">
-              Engineered a robust AI solution aligning with national innovation goals. Focused on scalable neural architectures for complex problem-solving in decentralized environments.
-            </p>
+          <div class="timeline-card timeline-item">
+            <div class="timeline-date">2025</div>
+            <div>
+              <h3 class="text-3xl font-bold mb-2">Cybersecurity Program</h3>
+              <p class="metadata text-pink-400 mb-4">Deloitte Australia Cyber Job Simulation // Forage</p>
+              <p class="text-slate-300 text-lg leading-8">
+                Applied cybersecurity knowledge through simulated threat detection, vulnerability assessment, and incident response workflows.
+              </p>
+            </div>
           </div>
-
-          <!-- ITEM 4 -->
-          <div class="timeline-item pl-10 relative">
-            <div class="absolute -left-[5px] top-0 w-[10px] h-[10px] bg-slate-700 rounded-full"></div>
-            <div class="metadata text-slate-500 mb-3">MAY 2024 — JULY 2024</div>
-            <h3 class="text-3xl font-bold mb-2">Full-Stack Architecture Intern</h3>
-            <p class="metadata text-pink-400 mb-5">Enterprise Infrastructure // Pune, MH</p>
-            <p class="text-slate-400 text-lg font-light leading-relaxed max-w-2xl">
-              Optimized microservice latency by 40% through architectural persistent caching layers. Refined the SDLC process for healthcare-centric data streams using Spring Boot and Angular.
-            </p>
-          </div>
-
         </div>
       </div>
     </section>
 
-    <!-- CHAPTER 2: THE VAULT (PROJECTS) -->
     <section id="vault">
       <div class="max-w-7xl mx-auto w-full">
-        <div class="metadata mb-8 text-pink-400">02 // ARTIFACT_COLLECTION</div>
-        <h2 class="chapter-heading">The Vault.</h2>
-        
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-          
-          <!-- AgriYield Pro -->
-          <div class="card overflow-hidden">
-            <div id="accent-3d-agri" class="project-3d-accent"></div>
+        <div class="metadata mb-8 text-pink-400">04 // PROJECTS</div>
+        <h2 class="chapter-heading">Projects That Turn Ideas Into Results.</h2>
+        <div class="project-grid">
+          <article class="project-case-card project-featured">
+            <div class="project-kicker">
+              <span class="project-rank">01 // Featured Project</span>
+              <div class="project-meta">
+                <span class="tag">Cybersecurity</span>
+                <span class="tag">Explainable AI</span>
+                <span class="tag">Banking</span>
+              </div>
+            </div>
             <div>
-              <div class="impact-stat">98.2%</div>
-              <div class="metadata mb-6">PYTHON // SCIKIT-LEARN</div>
-              <h3 class="text-xl font-bold mb-3 uppercase">AgriYield Pro</h3>
-              <p class="text-slate-500 text-sm font-light mb-6">
-                Decision Tree Regression model analyzing a decade of climatic data to optimize yields for 1,200+ rural farmers.
+              <h3 class="text-4xl font-bold uppercase">TrustSphere</h3>
+              <p class="project-subtitle mt-5">
+                Explainable AI for faster, clearer cyber incident response in banking environments.
               </p>
             </div>
-            <div class="brief-btn" data-project="agriyield">
-              <span>Inspect</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <div class="project-stat-grid">
+              <div class="project-stat">
+                <strong>15,000+</strong>
+                <span class="text-slate-400 text-sm">registrations across India</span>
+              </div>
+              <div class="project-stat">
+                <strong>1,348</strong>
+                <span class="text-slate-400 text-sm">teams submitted solutions</span>
+              </div>
+              <div class="project-stat">
+                <strong>36 hrs</strong>
+                <span class="text-slate-400 text-sm">final hackathon sprint</span>
+              </div>
             </div>
-          </div>
+            <div class="project-facts">
+              <details class="project-accordion">
+                <summary><span class="project-fact-label" style="margin-bottom: 0;">Problem</span><span class="project-accordion-icon">+</span></summary>
+                <div class="project-accordion-body">Security teams receive huge volumes of alerts from disconnected tools, and most of them are noisy, repetitive, or hard to act on quickly.</div>
+              </details>
+              <details class="project-accordion">
+                <summary><span class="project-fact-label" style="margin-bottom: 0;">What I Built</span><span class="project-accordion-icon">+</span></summary>
+                <div class="project-accordion-body">As team lead, I helped shape a human-in-the-loop SOC experience with multi-source log normalization, event correlation, hybrid risk scoring, explainable prioritization, and AI-assisted response playbooks.</div>
+              </details>
+              <details class="project-accordion">
+                <summary><span class="project-fact-label" style="margin-bottom: 0;">Tech Used</span><span class="project-accordion-icon">+</span></summary>
+                <div class="project-accordion-body">Explainable AI patterns, security workflows, event correlation logic, analyst-first response design, and regulated-environment product thinking.</div>
+              </details>
+              <details class="project-accordion">
+                <summary><span class="project-fact-label" style="margin-bottom: 0;">Impact</span><span class="project-accordion-icon">+</span></summary>
+                <div class="project-accordion-body">Designed to reduce alert fatigue, improve trust in prioritization, and keep analysts in control while speeding up decision-making.</div>
+              </details>
+            </div>
+            <div class="project-actions">
+              <div class="brief-btn" data-project="trustsphere">
+                <span>Open project case study</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </div>
+              <a href="https://github.com/sadiasakharkar/TrustSphere-SOC" target="_blank" rel="noreferrer" class="project-link">GitHub Repo</a>
+            </div>
+          </article>
 
-          <!-- WiseTrack -->
-          <div class="card lg:col-span-2 overflow-hidden">
-            <div id="accent-3d-wise" class="project-3d-accent" style="width: 180px; height: 180px; top: -40px; right: -40px;"></div>
+          <article class="project-case-card project-featured">
+            <div class="project-kicker">
+              <span class="project-rank">02 // Featured Project</span>
+              <div class="project-meta">
+                <span class="tag">AI/ML</span>
+                <span class="tag">Education</span>
+                <span class="tag">Full-stack</span>
+              </div>
+            </div>
             <div>
-              <div class="impact-stat">99.8%</div>
-              <div class="metadata mb-6">REACTJS // FIREBASE // XGBOOST</div>
-              <h3 class="text-2xl font-bold mb-3 uppercase">WiseTrack AI</h3>
-              <p class="text-slate-500 text-md font-light mb-6 leading-relaxed">
-                Comprehensive education management ecosystem integrating real-time dropout prediction, smart attendance tracking, and mental health telemetry.
+              <h3 class="text-4xl font-bold uppercase">WiseTrack</h3>
+              <p class="project-subtitle mt-5">
+                An AI-powered education platform for attendance analytics and early dropout-risk detection.
               </p>
             </div>
-            <div class="brief-btn" data-project="wisetrack">
-              <span>View Dossier</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <div class="project-stat-grid">
+              <div class="project-stat">
+                <strong>5,000+</strong>
+                <span class="text-slate-400 text-sm">student records analyzed</span>
+              </div>
+              <div class="project-stat">
+                <strong>99.8%</strong>
+                <span class="text-slate-400 text-sm">validation accuracy</span>
+              </div>
+              <div class="project-stat">
+                <strong>42%</strong>
+                <span class="text-slate-400 text-sm">better early-risk identification</span>
+              </div>
             </div>
-          </div>
+            <div class="project-facts">
+              <details class="project-accordion">
+                <summary><span class="project-fact-label" style="margin-bottom: 0;">Problem</span><span class="project-accordion-icon">+</span></summary>
+                <div class="project-accordion-body">Educational institutions need better visibility into attendance, engagement, and student risk before problems become too difficult to address.</div>
+              </details>
+              <details class="project-accordion">
+                <summary><span class="project-fact-label" style="margin-bottom: 0;">What I Built</span><span class="project-accordion-icon">+</span></summary>
+                <div class="project-accordion-body">A full-stack academic analytics product with predictive models, secure REST APIs, attendance tracking, integrity scoring, and behavioral insight layers.</div>
+              </details>
+              <details class="project-accordion">
+                <summary><span class="project-fact-label" style="margin-bottom: 0;">Tech Used</span><span class="project-accordion-icon">+</span></summary>
+                <div class="project-accordion-body">ReactJS, NodeJS, Firebase, Capacitor, Random Forest, XGBoost, JWT-based authentication, and validation-focused ML workflows.</div>
+              </details>
+              <details class="project-accordion">
+                <summary><span class="project-fact-label" style="margin-bottom: 0;">Impact</span><span class="project-accordion-icon">+</span></summary>
+                <div class="project-accordion-body">Showed how institutions can move from reactive tracking to earlier, data-informed interventions that improve decision quality.</div>
+              </details>
+            </div>
+            <div class="project-actions">
+              <div class="brief-btn" data-project="wisetrack">
+                <span>Open project case study</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </div>
+              <a href="https://github.com/Wisetrack-org" target="_blank" rel="noreferrer" class="project-link">GitHub Repo</a>
+            </div>
+          </article>
 
-          <!-- Evento -->
-          <div class="card">
+          <article class="project-case-card project-secondary">
+            <div class="project-kicker">
+              <span class="project-rank">03 // Strong Build</span>
+              <div class="project-meta">
+                <span class="tag">React Native</span>
+                <span class="tag">Firebase</span>
+              </div>
+            </div>
             <div>
-              <div class="metadata mb-10">REACT NATIVE // FIREBASE</div>
-              <h3 class="text-xl font-bold mb-3 uppercase">Evento</h3>
-              <p class="text-slate-500 text-sm font-light mb-6">
-                Real-time event infrastructure with QR registration and Discord API sync, engineered under high-pressure 24h constraints.
+              <h3 class="text-3xl font-bold uppercase">Evento</h3>
+              <p class="project-subtitle mt-4">
+                A real-time event management app with QR attendance and live updates.
               </p>
             </div>
-            <div class="brief-btn" data-project="evento">
-              <span>Dossier</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <div class="project-facts">
+              <details class="project-accordion">
+                <summary><span class="project-fact-label" style="margin-bottom: 0;">Problem</span><span class="project-accordion-icon">+</span></summary>
+                <div class="project-accordion-body">Event teams need fast registration, smoother check-ins, and real-time coordination without slowing down organizers.</div>
+              </details>
+              <details class="project-accordion">
+                <summary><span class="project-fact-label" style="margin-bottom: 0;">What I Built</span><span class="project-accordion-icon">+</span></summary>
+                <div class="project-accordion-body">QR validation, instant synchronization, notification flows, and external API integrations for participant engagement.</div>
+              </details>
+              <details class="project-accordion">
+                <summary><span class="project-fact-label" style="margin-bottom: 0;">Tech Used</span><span class="project-accordion-icon">+</span></summary>
+                <div class="project-accordion-body">React Native, Firebase, external APIs, real-time sync logic, and mobile-first event workflow design.</div>
+              </details>
+              <details class="project-accordion">
+                <summary><span class="project-fact-label" style="margin-bottom: 0;">Impact</span><span class="project-accordion-icon">+</span></summary>
+                <div class="project-accordion-body">Reduced manual check-in overhead by 60% and delivered 70% production-ready functionality in a 24-hour sprint.</div>
+              </details>
             </div>
-          </div>
+            <div class="project-actions">
+              <div class="brief-btn" data-project="evento">
+                <span>Open project case study</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </div>
+              <a href="https://github.com/sadiasakharkar/hackathon_Agnel-Polytechnic" target="_blank" rel="noreferrer" class="project-link">GitHub Repo</a>
+            </div>
+          </article>
 
-          <!-- Kali Portfolio -->
-          <div class="card">
+          <article class="project-case-card project-secondary">
+            <div class="project-kicker">
+              <span class="project-rank">04 // Strong Build</span>
+              <div class="project-meta">
+                <span class="tag">FastAPI</span>
+                <span class="tag">Remote Sensing</span>
+              </div>
+            </div>
             <div>
-              <div class="metadata mb-10">REACTJS // OFFENSIVE TECH UI</div>
-              <h3 class="text-xl font-bold mb-3 uppercase">Kali Portfolio</h3>
-              <p class="text-slate-500 text-sm font-light mb-6">
-                Security-centric terminal portfolio with 500+ unique visitors, highlighting offensive security branding and system logic.
+              <h3 class="text-3xl font-bold uppercase">AgriTrust</h3>
+              <p class="project-subtitle mt-4">
+                A carbon MRV platform for smallholder farmers with multilingual, role-based workflows.
               </p>
             </div>
-            <div class="brief-btn" data-project="portfolio">
-              <span>Details</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <div class="project-facts">
+              <details class="project-accordion">
+                <summary><span class="project-fact-label" style="margin-bottom: 0;">Problem</span><span class="project-accordion-icon">+</span></summary>
+                <div class="project-accordion-body">Carbon verification for agriculture needs better trust, cleaner workflows, and tools that still work in low-connectivity environments.</div>
+              </details>
+              <details class="project-accordion">
+                <summary><span class="project-fact-label" style="margin-bottom: 0;">What I Built</span><span class="project-accordion-icon">+</span></summary>
+                <div class="project-accordion-body">A farmer-verifier-admin platform with audit trails, data-quality scoring, and satellite-assisted feature extraction.</div>
+              </details>
+              <details class="project-accordion">
+                <summary><span class="project-fact-label" style="margin-bottom: 0;">Tech Used</span><span class="project-accordion-icon">+</span></summary>
+                <div class="project-accordion-body">React TypeScript, FastAPI, Firebase, Docker, geospatial data processing, multilingual PWA design, and AI-assisted estimation workflows.</div>
+              </details>
+              <details class="project-accordion">
+                <summary><span class="project-fact-label" style="margin-bottom: 0;">Impact</span><span class="project-accordion-icon">+</span></summary>
+                <div class="project-accordion-body">Made the MRV workflow more structured, multilingual, auditable, and practical for field-heavy use cases.</div>
+              </details>
             </div>
-          </div>
+            <div class="project-actions">
+              <div class="brief-btn" data-project="agritrust">
+                <span>Open project case study</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </div>
+              <a href="https://github.com/sadiasakharkar/Agri-Trust" target="_blank" rel="noreferrer" class="project-link">GitHub Repo</a>
+            </div>
+          </article>
 
-          <!-- MediKart -->
-          <div class="card">
+          <article class="project-case-card project-secondary">
+            <div class="project-kicker">
+              <span class="project-rank">05 // Strong Build</span>
+              <div class="project-meta">
+                <span class="tag">TensorFlow</span>
+                <span class="tag">OpenCV</span>
+              </div>
+            </div>
             <div>
-              <div class="metadata mb-10">ANGULAR // SPRING BOOT</div>
-              <h3 class="text-xl font-bold mb-3 uppercase">MediKart</h3>
-              <p class="text-slate-500 text-sm font-light mb-6">
-                Full-stack pharmacy platform with JWT security, secure prescription handling, and dynamic inventory synchronization.
+              <h3 class="text-3xl font-bold uppercase">Quietus AI</h3>
+              <p class="project-subtitle mt-4">
+                A low-latency threat detection system for surveillance and anomaly monitoring.
               </p>
             </div>
-            <div class="brief-btn" data-project="medikart">
-              <span>Technical</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <div class="project-facts">
+              <details class="project-accordion">
+                <summary><span class="project-fact-label" style="margin-bottom: 0;">Problem</span><span class="project-accordion-icon">+</span></summary>
+                <div class="project-accordion-body">Threat detection systems need to process live streams quickly without overwhelming users with false positives.</div>
+              </details>
+              <details class="project-accordion">
+                <summary><span class="project-fact-label" style="margin-bottom: 0;">What I Built</span><span class="project-accordion-icon">+</span></summary>
+                <div class="project-accordion-body">A low-latency CV pipeline with secure streaming support, preprocessing, model validation, and under-120ms inference performance.</div>
+              </details>
+              <details class="project-accordion">
+                <summary><span class="project-fact-label" style="margin-bottom: 0;">Tech Used</span><span class="project-accordion-icon">+</span></summary>
+                <div class="project-accordion-body">TensorFlow, OpenCV, FastAPI, anomaly detection models, secure streaming endpoints, and validation-focused CV workflows.</div>
+              </details>
+              <details class="project-accordion">
+                <summary><span class="project-fact-label" style="margin-bottom: 0;">Impact</span><span class="project-accordion-icon">+</span></summary>
+                <div class="project-accordion-body">Reached 94% precision and improved detection robustness by 28% in dynamic environments.</div>
+              </details>
             </div>
-          </div>
-
+            <div class="project-actions">
+              <div class="brief-btn" data-project="quietus">
+                <span>Open project case study</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </div>
+              <a href="https://github.com/sadiasakharkar/quietus-ai" target="_blank" rel="noreferrer" class="project-link">GitHub Repo</a>
+            </div>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- CHAPTER 3: RECOGNITION (CERTIFICATIONS) -->
+    <section id="proof">
+      <div class="max-w-7xl mx-auto w-full">
+        <div class="metadata mb-8 text-cyan-400">05 // HACKATHONS AND ACHIEVEMENTS</div>
+        <h2 class="chapter-heading">Proof That I Can Deliver Under Pressure.</h2>
+        <div class="proof-grid">
+          <div class="story-card">
+            <span class="section-label">Hackathons</span>
+            <div class="story-points" style="margin-top: 0;">
+              <div class="story-point"><strong class="text-white">Barclays Hack-O-Hire 2026</strong><br>Led my team in a high-scale challenge with 15,000+ registrations, 1,348 submitted teams, and a final 36-hour hackathon for the top 48 teams. Built TrustSphere for AI-assisted cyber incident response in banking.</div>
+              <div class="story-point"><strong class="text-white">National Hackathons and Competitive Builds</strong><br>Recognized across CodeCratz, CodeBits 2.0, Elite Hack, WeMakeDevs Hackathons, and Smart India Hackathon-style problem settings for building scalable systems under pressure.</div>
+            </div>
+          </div>
+          <div class="story-card">
+            <span class="section-label">Achievements</span>
+            <div class="story-points" style="margin-top: 0;">
+              <div class="story-point"><strong class="text-white">1st Rank - Best Project Presentation</strong><br>Awarded at Dr. Babasaheb Ambedkar Technological University in April 2025 for presenting an AI/ML solution with 98% accuracy and strong practical relevance.</div>
+              <div class="story-point"><strong class="text-white">Global Research Contribution</strong><br>Contributed to machine learning reproducibility efforts through modular workflows, version-controlled experimentation, and debugging of automation-heavy research environments.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="credentials">
-      <div class="max-w-[1400px] mx-auto w-full relative z-10">
-        <div class="metadata mb-8 text-cyan-400 text-center">03 // RECOGNITION_MATRIX</div>
-        <h2 class="chapter-heading italic text-center">Credentials.</h2>
-        
-        <div class="credential-grid-layout grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 items-start">
-          
-          <!-- Achievements Column -->
-          <div class="order-2 md:order-1">
-            <div class="metadata mb-6 text-pink-400 text-right">ACHIEVEMENTS</div>
-            <div class="credential-grid">
-              <div class="credential-item">
-                <span class="achievement-tag">1st RANK</span>
-                <h4 class="text-lg font-bold">Best Project: </h4>
-                <p class="text-[10px] text-slate-500 mt-2 uppercase">April 2025 // 98% Accuracy</p>
-                <p class="credential-reveal">Awarded for excellence in AI/ML solutions, demonstrating mastery in predictive modeling and institutional data analytics.</p>
-              </div>
-              <div class="credential-item">
-                <span class="achievement-tag">TOP PERFORMER</span>
-                <h4 class="text-lg font-bold">National Hackathons</h4>
-                <p class="text-[10px] text-slate-500 mt-2 uppercase">CodeCratz '25 // CodeBits 2.0</p>
-                <p class="credential-reveal">Lead contributor developing scalable full-stack applications under strict 24-48h deadlines in competitive environments.</p>
-              </div>
-              <div class="credential-item">
-                <span class="achievement-tag">CONTRIBUTOR</span>
-                <h4 class="text-lg font-bold">Global ML Initiative</h4>
-                <p class="text-[10px] text-slate-500 mt-2 uppercase">ML Reproducibility</p>
-                <p class="credential-reveal">Selected as an early contributor to a global initiative solving critical machine learning reproducibility challenges in science.</p>
-              </div>
+      <div class="max-w-7xl mx-auto w-full">
+        <div class="metadata mb-8 text-pink-400">06 // SKILLS, LANGUAGES, CERTIFICATIONS</div>
+        <h2 class="chapter-heading">What I Bring To The Table.</h2>
+        <div class="skills-layout">
+          <div class="story-card">
+            <span class="section-label">Languages and technologies</span>
+            <div class="skill-category-grid">
+              <details class="skill-category">
+                <summary><h3>Programming Languages</h3><span>+</span></summary>
+                <div class="chip-cloud">
+                  <span class="chip">Java</span>
+                  <span class="chip">Python</span>
+                  <span class="chip">C++</span>
+                  <span class="chip">JavaScript</span>
+                  <span class="chip">TypeScript</span>
+                  <span class="chip">Bash</span>
+                </div>
+              </details>
+              <details class="skill-category">
+                <summary><h3>Web and App Development</h3><span>+</span></summary>
+                <div class="chip-cloud">
+                  <span class="chip">HTML5</span>
+                  <span class="chip">CSS3</span>
+                  <span class="chip">ReactJS</span>
+                  <span class="chip">Angular</span>
+                  <span class="chip">Tailwind CSS</span>
+                  <span class="chip">Capacitor</span>
+                  <span class="chip">React Native</span>
+                </div>
+              </details>
+              <details class="skill-category">
+                <summary><h3>Backend and APIs</h3><span>+</span></summary>
+                <div class="chip-cloud">
+                  <span class="chip">Node.js</span>
+                  <span class="chip">Express.js</span>
+                  <span class="chip">Spring Boot</span>
+                  <span class="chip">FastAPI</span>
+                  <span class="chip">REST APIs</span>
+                  <span class="chip">JWT</span>
+                </div>
+              </details>
+              <details class="skill-category">
+                <summary><h3>Databases</h3><span>+</span></summary>
+                <div class="chip-cloud">
+                  <span class="chip">MySQL</span>
+                  <span class="chip">MongoDB</span>
+                  <span class="chip">Firebase</span>
+                </div>
+              </details>
+              <details class="skill-category">
+                <summary><h3>AI / ML / Data Science</h3><span>+</span></summary>
+                <div class="chip-cloud">
+                  <span class="chip">Scikit-learn</span>
+                  <span class="chip">TensorFlow</span>
+                  <span class="chip">OpenCV</span>
+                  <span class="chip">XGBoost</span>
+                  <span class="chip">Pandas</span>
+                  <span class="chip">NumPy</span>
+                  <span class="chip">Feature Engineering</span>
+                  <span class="chip">Model Evaluation</span>
+                </div>
+              </details>
+              <details class="skill-category">
+                <summary><h3>Cloud, DevOps, Automation</h3><span>+</span></summary>
+                <div class="chip-cloud">
+                  <span class="chip">GitHub Actions</span>
+                  <span class="chip">CI/CD</span>
+                  <span class="chip">Firebase Hosting</span>
+                  <span class="chip">Docker</span>
+                  <span class="chip">Workflow Automation</span>
+                </div>
+              </details>
+              <details class="skill-category">
+                <summary><h3>Cybersecurity Tools</h3><span>+</span></summary>
+                <div class="chip-cloud">
+                  <span class="chip">Kali Linux</span>
+                  <span class="chip">OWASP Top 10</span>
+                  <span class="chip">Burp Suite</span>
+                  <span class="chip">Wireshark</span>
+                  <span class="chip">Hashcat</span>
+                  <span class="chip">Nmap</span>
+                  <span class="chip">John the Ripper</span>
+                  <span class="chip">Hydra</span>
+                </div>
+              </details>
+              <details class="skill-category">
+                <summary><h3>Professional Strengths</h3><span>+</span></summary>
+                <div class="chip-cloud">
+                  <span class="chip">Strategic problem solving</span>
+                  <span class="chip">Adaptive learning</span>
+                  <span class="chip">Collaborative teamwork</span>
+                  <span class="chip">Leadership</span>
+                  <span class="chip">Effective communication</span>
+                </div>
+              </details>
             </div>
           </div>
-
-          <!-- Central 3D Skill Object -->
-          <div class="visual-3d-skills-container order-1 md:order-2 flex flex-col items-center justify-center min-h-[500px] sticky top-24">
-            <div id="skills-3d-container" class="visual-3d-skills"></div>
-            <div class="mt-8 text-center">
-              <div class="metadata text-white tracking-[0.8em]">NEURAL CORE</div>
-              <div class="text-[9px] text-slate-500 mt-2 font-mono">AUTONOMOUS_LOGIC_SYNC_ACTIVE</div>
+          <div>
+            <div class="story-card">
+              <span class="section-label">Certifications</span>
+              <div class="story-points" style="margin-top: 0;">
+                <div class="story-point"><strong class="text-white">AWS ML Foundations</strong><br>Cloud-based machine learning basics, deployment concepts, and model workflows.</div>
+                <div class="story-point"><strong class="text-white">Cyber Job Simulation - Deloitte Australia</strong><br>Exposure to threat analysis, vulnerabilities, and incident-response thinking.</div>
+                <div class="story-point"><strong class="text-white">Automation Systems</strong><br>Understanding how workflows can be improved through repeatable automation.</div>
+                <div class="story-point"><strong class="text-white">Introduction to Cybersecurity - Cisco</strong><br>Security principles, network defense concepts, and risk-aware systems thinking.</div>
+              </div>
             </div>
-          </div>
-
-          <!-- Certifications Column -->
-          <div class="order-3">
-            <div class="metadata mb-6 text-cyan-400">CERTIFICATIONS</div>
-            <div class="credential-grid">
-              <div class="credential-item">
-                <h4 class="text-lg font-bold">AWS ML Foundations</h4>
-                <p class="text-[10px] text-slate-500 mt-2 uppercase">Amazon Web Services</p>
-                <p class="credential-reveal">Fundamentals of SageMaker, AI pipelines, cloud computing, and automated model deployment strategies.</p>
-              </div>
-              <div class="credential-item">
-                <h4 class="text-lg font-bold">Cyber Job Simulation</h4>
-                <p class="text-[10px] text-slate-500 mt-2 uppercase">Deloitte Australia</p>
-                <p class="credential-reveal">Applied threat detection, vulnerability assessments, and incident response in simulated enterprise environments.</p>
-              </div>
-              <div class="credential-item">
-                <h4 class="text-lg font-bold">Automation Systems</h4>
-                <p class="text-[10px] text-slate-500 mt-2 uppercase">Workflow Optimization</p>
-                <p class="credential-reveal">Engineered automated industrial workflows to optimize business processes using modern scripting architectures.</p>
-              </div>
-              <div class="credential-item">
-                <h4 class="text-lg font-bold">Generative AI</h4>
-                <p class="text-[10px] text-slate-500 mt-2 uppercase">Konect U // July 2024</p>
-                <p class="credential-reveal">Mastery of GANs, transformer models, and deep neural network research methodologies.</p>
+            <div class="story-card mt-6">
+              <span class="section-label">Strengths</span>
+              <div class="chip-cloud" style="margin-top: 0;">
+                <span class="chip">Strategic problem solving</span>
+                <span class="chip">Adaptive learning</span>
+                <span class="chip">Product thinking</span>
+                <span class="chip">Collaborative teamwork</span>
+                <span class="chip">Leadership</span>
+                <span class="chip">Effective communication</span>
               </div>
             </div>
           </div>
@@ -706,46 +1896,89 @@
       </div>
     </section>
 
-    <!-- CHAPTER 4: SIGNAL -->
     <section id="contact" class="items-center">
-      <div class="max-w-4xl mx-auto w-full">
-        <div class="metadata mb-10 text-center">04 // SIGNAL_HANDSHAKE</div>
+      <div class="max-w-5xl mx-auto w-full">
+        <div class="metadata mb-10 text-center">07 // CONTACT</div>
         <h2 class="chapter-heading uppercase tracking-tighter text-center" style="font-size: clamp(3rem, 11vw, 9rem)">
-          Secure<br>Channel.
+          Let’s Build<br>Something Meaningful.
         </h2>
-        
-        <!-- Contact Form Integration -->
-        <div class="mt-16 bg-[#0a0a0a] border border-white/5 p-8 md:p-12 text-left max-w-2xl mx-auto shadow-2xl relative overflow-hidden">
+        <p class="section-intro text-center mx-auto">
+          Open to internships, collaborations, hackathons, research, and product-building conversations.
+        </p>
+
+        <div class="contact-actions">
+          <a href="mailto:sakharkarsadia@gmail.com" class="contact-action-card">
+            <div class="contact-action-head">
+              <span class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg></span>
+              <div class="metadata text-white">Email</div>
+            </div>
+            <p class="text-slate-300 mt-4 text-lg">sakharkarsadia@gmail.com</p>
+          </a>
+          <a href="https://github.com/sadiasakharkar" target="_blank" rel="noreferrer" class="contact-action-card">
+            <div class="contact-action-head">
+              <span class="contact-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.8.5 12.34c0 5.23 3.3 9.66 7.88 11.23.58.11.79-.26.79-.57 0-.28-.01-1.03-.02-2.03-3.21.72-3.89-1.58-3.89-1.58-.52-1.37-1.28-1.73-1.28-1.73-1.05-.74.08-.73.08-.73 1.16.09 1.77 1.22 1.77 1.22 1.03 1.83 2.7 1.3 3.36.99.1-.77.4-1.3.73-1.6-2.56-.3-5.25-1.32-5.25-5.9 0-1.3.45-2.36 1.19-3.19-.12-.3-.52-1.5.11-3.13 0 0 .97-.32 3.18 1.22a10.7 10.7 0 0 1 5.78 0c2.2-1.54 3.17-1.22 3.17-1.22.63 1.63.23 2.83.12 3.13.74.83 1.19 1.9 1.19 3.19 0 4.59-2.7 5.59-5.27 5.88.41.37.78 1.1.78 2.23 0 1.61-.02 2.91-.02 3.31 0 .31.2.69.8.57A11.9 11.9 0 0 0 23.5 12.34C23.5 5.8 18.35.5 12 .5Z"/></svg></span>
+              <div class="metadata text-white">GitHub</div>
+            </div>
+            <p class="text-slate-300 mt-4 text-lg">github.com/sadiasakharkar</p>
+          </a>
+          <a href="https://www.linkedin.com/in/sadiasakharkar/" target="_blank" rel="noreferrer" class="contact-action-card">
+            <div class="contact-action-head">
+              <span class="contact-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.11 1 2.48 1h.02C3.87 1 4.98 2.12 4.98 3.5ZM.44 8.06h4.12V24H.44V8.06Zm6.77 0h3.95v2.18h.06c.55-1.04 1.9-2.14 3.92-2.14 4.2 0 4.98 2.82 4.98 6.48V24h-4.12v-8.28c0-1.98-.03-4.53-2.7-4.53-2.7 0-3.11 2.16-3.11 4.39V24H7.21V8.06Z"/></svg></span>
+              <div class="metadata text-white">LinkedIn</div>
+            </div>
+            <p class="text-slate-300 mt-4 text-lg">Connect professionally</p>
+          </a>
+        </div>
+
+        <div class="mt-16 bg-[#0a0a0a] border border-white/5 p-8 md:p-12 text-left max-w-3xl mx-auto shadow-2xl relative overflow-hidden">
+          <div id="letter-stage" class="letter-stage">
+            <div class="letter-mail">
+              <div class="letter-flap"></div>
+              <div class="letter-body"></div>
+              <div class="letter-line one"></div>
+              <div class="letter-line two"></div>
+            </div>
+          </div>
           <div id="signal-form-container">
             <form id="signal-form">
               <div class="mb-8">
-                <label class="signal-label">Identification (Name)</label>
-                <input type="text" name="name" required placeholder="GUEST_USER" class="signal-input">
+                <label class="signal-label">Your Name</label>
+                <input type="text" name="name" required placeholder="Enter your name" class="signal-input">
               </div>
               <div class="mb-8">
-                <label class="signal-label">Contact Protocol (Email)</label>
-                <input type="email" name="email" required placeholder="CONTACT@SECURE.HOST" class="signal-input">
+                <label class="signal-label">Your Email</label>
+                <input type="email" name="email" required placeholder="Enter your email" class="signal-input">
               </div>
               <div class="mb-10">
-                <label class="signal-label">Signal Payload (Message)</label>
-                <textarea name="message" rows="4" required placeholder="ENCRYPT_MESSAGE_HERE..." class="signal-input resize-none"></textarea>
+                <label class="signal-label">Message</label>
+                <textarea name="message" rows="4" required placeholder="Tell me about the role, idea, or collaboration you have in mind" class="signal-input resize-none"></textarea>
               </div>
               <button type="submit" id="submit-signal" class="w-full py-5 bg-white text-black font-black uppercase tracking-widest hover:bg-cyan-400 transition-all duration-400 flex items-center justify-center gap-4">
-                <span>Transmit Signal</span>
+                <span>Send Message</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
               </button>
             </form>
           </div>
           <div id="signal-success" class="hidden py-12 text-center">
-            <div class="text-cyan-400 text-5xl font-black mb-4 tracking-tighter animate-pulse">SIGNAL SENT.</div>
-            <p class="metadata text-slate-500">Handshake acknowledged. Expect response on secure channel.</p>
-            <button onclick="window.location.reload()" class="mt-8 metadata text-white hover:text-cyan-400 transition-colors">>> RESET_BUFFER</button>
+            <div class="text-cyan-400 text-5xl font-black mb-4 tracking-tighter animate-pulse">MESSAGE SENT.</div>
+            <p class="metadata text-slate-500">Thanks for reaching out. I’ll get back to you soon.</p>
+            <button onclick="window.location.reload()" class="mt-8 metadata text-white hover:text-cyan-400 transition-colors">SEND ANOTHER MESSAGE</button>
           </div>
         </div>
 
         <div class="mt-12 flex flex-col md:flex-row gap-5 justify-center">
-          <div class="px-10 py-5 border border-white/10 text-white font-bold uppercase tracking-widest metadata flex items-center justify-center">
-            Pune, MH // OPERATIONAL
+          <div class="location-card">
+            <div class="location-map">
+              <svg viewBox="0 0 400 180" fill="none">
+                <path d="M30 122c24-22 37-20 58-40 20-20 38-22 54-34 16-12 20-29 39-34 19-5 31 5 45 19 16 16 28 14 46 24 18 10 44 33 73 39" stroke="rgba(255,255,255,0.14)" stroke-width="2"/>
+                <path d="M72 150c21-14 39-11 58-23 22-14 30-33 57-37 20-3 40 4 57 15 18 11 38 22 73 25" stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
+              </svg>
+              <div class="map-pin"></div>
+            </div>
+            <div class="map-label">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-6-5.33-6-11a6 6 0 1 1 12 0c0 5.67-6 11-6 11Z"/><circle cx="12" cy="10" r="2.2"/></svg>
+              Pune, Maharashtra
+            </div>
           </div>
         </div>
       </div>
@@ -771,19 +2004,28 @@
     <div class="p-5 border-b border-white/5 flex items-center justify-between">
       <div class="flex items-center gap-3">
         <div class="w-7 h-7 rounded bg-white flex items-center justify-center font-black text-black text-[9px]">SA</div>
-        <div class="metadata text-white">Concierge Assistant</div>
+        <div>
+          <div class="metadata text-white">Portfolio Assistant</div>
+          <div class="assistant-subtitle">Ask Anything</div>
+        </div>
       </div>
       <button id="ai-close" class="text-slate-500 hover:text-white transition-colors">
         <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-width="2"/></svg>
       </button>
     </div>
+    <div class="assistant-chips">
+      <button class="assistant-chip" data-prompt="Tell me about TrustSphere">TrustSphere</button>
+      <button class="assistant-chip" data-prompt="Summarize WiseTrack">WiseTrack</button>
+      <button class="assistant-chip" data-prompt="What are Sadia's key skills?">Skills</button>
+      <button class="assistant-chip" data-prompt="What hackathons has Sadia done?">Hackathons</button>
+    </div>
     <div id="ai-history" class="flex-1 overflow-y-auto p-5 flex flex-col">
-      <div class="chat-msg ai-msg">Diagnostic sequence complete. I can provide technical data on Sadia's 9.66 GPA, her AgriYield Pro research, or AWS ML credentials. How shall we proceed?</div>
+      <div class="chat-msg ai-msg">Hi, I can help you learn about Sadia's projects, skills, education, and experience. Ask me anything.</div>
     </div>
     <div class="p-5 pt-0">
-      <div class="relative">
-        <input id="ai-input" type="text" placeholder="Query dossier..." class="w-full bg-transparent border-b border-white/10 py-3 text-xs focus:outline-none focus:border-cyan-400 pr-10">
-        <button id="ai-send" class="absolute right-0 top-1/2 -translate-y-1/2 text-cyan-400">
+      <div class="assistant-input-wrap">
+        <textarea id="ai-input" placeholder="Ask about projects, skills, education, hackathons, or experience" class="assistant-input"></textarea>
+        <button id="ai-send" class="assistant-send" aria-label="Send message">
           <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-width="2.5"/></svg>
         </button>
       </div>
@@ -802,37 +2044,38 @@
       var aiInput = document.getElementById('ai-input');
       var aiSend = document.getElementById('ai-send');
       var historyBox = document.getElementById('ai-history');
+      var promptChips = document.querySelectorAll('.assistant-chip');
       
       var projectData = {
-        agriyield: {
-          title: "AgriYield Pro: Predictive Agriculture",
-          challenges: "Analyzing 10 years of inconsistent agro-climatic and soil telemetry across rural networks.",
-          decisions: "Deployed Decision Tree Regression (98.2% R²) for maximum interpretability in resource planning.",
-          impact: "Improving planning for 1,200+ farmers and cutting forecast delay by 40%."
+        agritrust: {
+          title: "AgriTrust",
+          challenges: "Smallholder-facing carbon MRV workflows can be hard to trust because they depend on fragmented submissions, inconsistent field data, and limited connectivity.",
+          decisions: "I helped architect a full-stack platform with farmer, verifier, and admin roles, multilingual PWA support, satellite-assisted feature extraction, and a FastAPI service with rate limiting, tracing, and data-quality scoring.",
+          impact: "The result was a practical carbon MRV platform designed for low-connectivity environments with stronger auditability, structured verification flows, and AI-assisted carbon estimation."
+        },
+        quietus: {
+          title: "Quietus AI",
+          challenges: "Surveillance and threat detection systems need to process live streams quickly while keeping false positives low and staying reliable in dynamic environments.",
+          decisions: "I built a low-latency computer vision pipeline with TensorFlow, OpenCV, and FastAPI, focused on under-120ms inference, anomaly detection, secure streaming, and better preprocessing and validation workflows.",
+          impact: "The system reached 94% precision, improved detection robustness by 28%, and showed how multimodal threat monitoring can be both fast and production-minded."
         },
         wisetrack: {
-          title: "WiseTrack AI: Institutional Intelligence",
-          challenges: "Ethical predictive modeling of student attrition and mental health indicators.",
-          decisions: "XGBoost architecture achieving 99.8% precision with multilingual and NEP-aligned features.",
-          impact: "National hackathon recognition; significant attrition reduction via early telemetry intervention."
+          title: "WiseTrack",
+          challenges: "Educational institutions need better visibility into attendance, engagement, and student risk before problems become harder to address.",
+          decisions: "I designed a full-stack academic analytics platform with predictive modeling, secure REST services, JWT-based authentication, and analytics over 5,000+ student records.",
+          impact: "The platform achieved 99.8% classification accuracy on balanced validation data and improved early-risk identification by 42% over baseline models."
         },
         evento: {
-          title: "Evento: Real-Time Management",
-          challenges: "Scaling real-time QR registration and Discord sync within a high-pressure 24h sprint.",
-          decisions: "React Native with Firebase real-time listeners for synchronized buzzer features.",
-          impact: "Successfully handled 70% of core features in 24 hours for massive registration volumes."
+          title: "Evento",
+          challenges: "Live events need smooth registration, fast attendance validation, and real-time coordination without slowing organizers down.",
+          decisions: "I led development of a React Native and Firebase-based mobile app with QR validation, instant synchronization, external communication APIs, and performance-focused client and backend optimizations.",
+          impact: "The project reduced manual check-in overhead by 60% in simulated high-traffic scenarios and delivered 70% production-ready functionality in a 24-hour sprint."
         },
-        portfolio: {
-          title: "Kali Portfolio: Security Branding",
-          challenges: "Capturing a terminal-inspired offensive security UI without sacrificing performance.",
-          decisions: "Custom CSS/JS terminal engine showcasing cybersecurity and system logic interests.",
-          impact: "500+ unique visitors; established a strong online presence for systems security engineering."
-        },
-        medikart: {
-          title: "MediKart: Healthcare E-Pharmacy",
-          challenges: "Secure prescription handling and real-time inventory synchronization across diverse categories.",
-          decisions: "Spring Boot REST API backed by Angular; implemented robust JWT-based security layers.",
-          impact: "Complete healthcare portal with prescription management and real-time order tracking."
+        trustsphere: {
+          title: "TrustSphere",
+          challenges: "Banking security teams deal with high alert volume across multiple tools, making it difficult to quickly separate noise from real incidents.",
+          decisions: "At Barclays Hack-O-Hire 2026, we built an explainable AI-driven SOC platform with multi-source log normalization, event correlation, hybrid risk scoring, explainable prioritization, and analyst-focused AI-assisted response playbooks.",
+          impact: "TrustSphere was designed to reduce alert fatigue, improve trust in prioritization, and keep human analysts in control while enabling faster, clearer incident response."
         }
       };
 
@@ -886,9 +2129,9 @@
           detailBody.innerHTML = 
             '<h4 class="text-4xl font-bold mb-8">' + data.title + '</h4>' +
             '<div class="grid gap-10">' +
-              '<div><span class="detail-section-title">Critical Challenges</span><p class="text-slate-400 font-light">' + data.challenges + '</p></div>' +
-              '<div><span class="detail-section-title">Architectural Decisions</span><p class="text-slate-400 font-light">' + data.decisions + '</p></div>' +
-              '<div><span class="detail-section-title">System Impact</span><p class="text-slate-400 font-light">' + data.impact + '</p></div>' +
+              '<div><span class="detail-section-title">Problem</span><p class="text-slate-400 font-light">' + data.challenges + '</p></div>' +
+              '<div><span class="detail-section-title">What I Built</span><p class="text-slate-400 font-light">' + data.decisions + '</p></div>' +
+              '<div><span class="detail-section-title">Impact</span><p class="text-slate-400 font-light">' + data.impact + '</p></div>' +
             '</div>';
           
           detailOverlay.classList.add('open');
@@ -913,45 +2156,113 @@
         historyBox.scrollTop = historyBox.scrollHeight;
       }
 
+      function autoResizeInput() {
+        aiInput.style.height = '46px';
+        aiInput.style.height = Math.min(aiInput.scrollHeight, 140) + 'px';
+      }
+
+      function buildFallbackReply(text) {
+        var q = text.toLowerCase();
+        if (q.indexOf('trustsphere') !== -1 || q.indexOf('barclays') !== -1 || q.indexOf('hack-o-hire') !== -1) {
+          return "TrustSphere is one of Sadia's strongest security-focused projects. It was built during Barclays Hack-O-Hire 2026 as an explainable AI-driven SOC platform for banking environments. The idea was to reduce alert fatigue by correlating noisy security events, scoring risk intelligently, and helping analysts understand what happened, why it matters, and what to do next.";
+        }
+        if (q.indexOf('wisetrack') !== -1 || q.indexOf('education') !== -1 || q.indexOf('dropout') !== -1) {
+          return "WiseTrack is an AI-powered education intelligence platform focused on attendance, analytics, and early dropout-risk detection. It processed 5,000+ student records, reached 99.8% validation accuracy, and improved early-risk identification by 42% over baseline models.";
+        }
+        if (q.indexOf('evento') !== -1) {
+          return "Evento is a real-time event management app built with React Native and Firebase. It supports QR-based attendance, live updates, and smoother organizer workflows, and it reduced manual check-in overhead by 60% in simulated high-traffic scenarios.";
+        }
+        if (q.indexOf('agritrust') !== -1 || q.indexOf('carbon') !== -1 || q.indexOf('farmer') !== -1) {
+          return "AgriTrust is a carbon MRV platform built for smallholder farmers. It includes farmer, verifier, and admin workflows, multilingual support, offline-aware thinking, and AI-assisted carbon estimation using structured agricultural data and satellite-driven features.";
+        }
+        if (q.indexOf('quietus') !== -1 || q.indexOf('surveillance') !== -1 || q.indexOf('threat detection') !== -1) {
+          return "Quietus AI is a real-time multimodal threat detection system built with TensorFlow, OpenCV, and FastAPI. It focused on low-latency inference under 120ms, secure streaming workflows, and stronger anomaly detection with 94% precision.";
+        }
+        if (q.indexOf('skill') !== -1 || q.indexOf('tools') !== -1 || q.indexOf('language') !== -1) {
+          return "Sadia's skills span programming languages like Java, Python, C++, JavaScript, TypeScript, and Bash; web and app technologies like ReactJS, Angular, React Native, and Tailwind; backend tools like Node.js, Express, Spring Boot, and FastAPI; plus AI/ML, cybersecurity, databases, and automation tooling.";
+        }
+        if (q.indexOf('hackathon') !== -1 || q.indexOf('achievement') !== -1 || q.indexOf('award') !== -1) {
+          return "Sadia has participated in multiple high-pressure hackathons, including Barclays Hack-O-Hire 2026, CodeCratz, CodeBits 2.0, and Smart India Hackathon-style problem settings. She was also awarded 1st Rank for Best Project Presentation and has contributed to a global ML reproducibility initiative.";
+        }
+        if (q.indexOf('education') !== -1 || q.indexOf('college') !== -1 || q.indexOf('cgpa') !== -1) {
+          return "Sadia is pursuing a B.Tech in Computer Engineering at MKSSS's Cummins College of Engineering for Women, Pune, with a CGPA of 8.90. She also completed a Diploma in Computer Engineering with a CGPA of 9.66, which gave her a very strong technical foundation.";
+        }
+        if (q.indexOf('experience') !== -1 || q.indexOf('intern') !== -1 || q.indexOf('internship') !== -1) {
+          return "Sadia's experience includes an AI/ML internship at Konect U, where she built a crop-yield prediction pipeline and improved forecasting efficiency, a Deloitte cyber simulation focused on threat analysis, and ongoing research contribution work in ML reproducibility.";
+        }
+        if (q.indexOf('contact') !== -1 || q.indexOf('email') !== -1 || q.indexOf('linkedin') !== -1 || q.indexOf('github') !== -1) {
+          return "You can contact Sadia at sakharkarsadia@gmail.com, explore her work on GitHub at github.com/sadiasakharkar, or connect professionally through LinkedIn using the contact section on this page.";
+        }
+        return "I can help with Sadia's projects, hackathons, education, skills, internships, certifications, or contact details. Try asking about TrustSphere, WiseTrack, Barclays Hack-O-Hire, skills, or experience.";
+      }
+
       function handleAi() {
         var text = aiInput.value.trim();
         if (!text) return;
         addMsg('user', text);
         aiInput.value = '';
+        autoResizeInput();
+        aiSend.disabled = true;
 
         try {
           var aiClient = new GoogleGenAI({ apiKey: process.env.API_KEY });
           aiClient.models.generateContent({
             model: "gemini-3-flash-preview",
             contents: text,
-            config: { systemInstruction: "You are the digital concierge for Sadia Sakharkar. Sadia: 9.66 GPA, systems researcher at Cummins College. Credentials: AWS ML, Deloitte Cyber, Cisco, GenAI, Automation Systems. Awards: 1st Rank Project Presentation (DBATU). Major Projects: AgriYield Pro (98.2%), WiseTrack (99.8%), Evento, MediKart. Be precise, professional, and reference technical achievements when relevant." }
+            config: { systemInstruction: "You are the portfolio assistant for Sadia Sakharkar. Explain her work in simple, recruiter-friendly language. Focus on her education, internships, Barclays Hack-O-Hire 2026 experience, AI and security projects, certifications, and measurable impact. Keep answers clear for both technical and non-technical visitors." }
           }).then(function(response) {
             addMsg('ai', response.text);
+            aiSend.disabled = false;
           }).catch(function(err) {
-            addMsg('ai', "Neural link error. Please retry or contact Sadia via sakharkarsadia@gmail.com.");
+            addMsg('ai', buildFallbackReply(text));
+            aiSend.disabled = false;
           });
         } catch (e) {
-          addMsg('ai', "Interface failure.");
+          addMsg('ai', buildFallbackReply(text));
+          aiSend.disabled = false;
         }
       }
 
+      for (var chipIndex = 0; chipIndex < promptChips.length; chipIndex++) {
+        promptChips[chipIndex].onclick = function() {
+          aiInput.value = this.getAttribute('data-prompt') || '';
+          autoResizeInput();
+          handleAi();
+        };
+      }
+
+      autoResizeInput();
       aiSend.onclick = handleAi;
-      aiInput.onkeydown = function(e) { if (e.keyCode === 13) handleAi(); };
+      aiInput.oninput = autoResizeInput;
+      aiInput.onkeydown = function(e) {
+        if (e.keyCode === 13 && !e.shiftKey) {
+          e.preventDefault();
+          handleAi();
+        }
+      };
 
       // --- CONTACT FORM LOGIC (ES5) ---
       var signalForm = document.getElementById('signal-form');
       var signalSuccess = document.getElementById('signal-success');
       var formContainer = document.getElementById('signal-form-container');
+      var letterStage = document.getElementById('letter-stage');
       
       if (signalForm) {
         signalForm.onsubmit = function(e) {
           e.preventDefault();
           var btn = document.getElementById('submit-signal');
           btn.disabled = true;
-          btn.innerHTML = 'TRANSMITTING_SIGNAL...';
-          
+          btn.innerHTML = 'SENDING...';
+
+          if (letterStage) {
+            letterStage.classList.add('active');
+          }
+
           setTimeout(function() {
             formContainer.classList.add('hidden');
+            if (letterStage) {
+              letterStage.classList.remove('active');
+            }
             signalSuccess.classList.remove('hidden');
           }, 1500);
           
@@ -1102,7 +2413,6 @@
 
       // Initialize all 3D contexts
       createThree('global-bg-canvas', 'bg');
-      createThree('hero-3d-container', 'hero');
       createThree('momentum-3d-container', 'momentum');
       createThree('skills-3d-container', 'skills');
       createThree('accent-3d-agri', 'accent');
